@@ -4,15 +4,13 @@ import React from 'react';
  * Any item that needs to be drawn on the tree including people and images 
  */
 const TreeNode = (props) => {
-  const leftOrRight = "";
-  const style = {
-    position: "absolute",
-    width: 0,
-    height: 0
-  };
+  const leftOrRight = props.position.half;
+  const style = props.position.style;
   return (
-    <div className={`treeNode ${leftOrRight}`} style={style}>
-      {props.children}
+    <div className="treeNode" style={style}>
+      <div className={`content ${leftOrRight}`}>
+        {props.children}
+      </div>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import parse from '../parse.js';
 /**
  * Wrapper component for full application
  */
-const App = (props) => {
+const App = () => {
   const familyData = parse(config.data);
   return (
     <div className="app">

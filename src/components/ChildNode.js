@@ -10,7 +10,7 @@ const ChildNode = (props) => {
   const spouseName = props.spouseName || '';
   const spouseDate = props.spouseBorn + (props.spouseDied ? ` - ${props.spouseDied}` : '');
   return (
-    <TreeNode>
+    <TreeNode position={props.calculations}>
       <div className="member">
         <div className="name">{name}</div>
         <div className="date">{date}</div>
