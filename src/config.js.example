@@ -1,0 +1,21 @@
+const deg = (degrees) => (Math.PI / 180) * degrees
+
+export default {
+    maxAngle: deg(60),
+    minThetaBetweenSibs: 0,
+    bonusParentFactor: 1.5,
+    adjustments: {
+        "Abe Smith": deg(5),
+        "Joe Smith": deg(-10)
+    }
+}
+
+export const data = `
+name,born,died,spouseName,spouseBorn,parentName
+Abe Smith,19-Jan-1937,,Amber Smith,25-Mar-1954,
+Bobby Smith,9-Apr-1961,,Barb Smith,24-Jun-1987,Abe Smith
+Betty Johnson,9-Apr-1961,,Bob Johnson,24-Jun-1987,Abe Smith
+Curtis Johnson,1-Jul-1990,,Carey Johnson,25-Sep-2014,Betty Johnson
+Dwayne Johnson,31-Sep-2018,,,,Curtis Johnson
+Dwight Johnson,31-October-2019,,,,Curtis Johnson
+`.trim()
