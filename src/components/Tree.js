@@ -1,5 +1,6 @@
 import React from 'react';
 import ChildNode from './ChildNode.js';
+import RootNode from './RootNode.js';
 import config from '../config.js';
 import styles from './Tree.module.css';
 
@@ -19,7 +20,7 @@ const Tree = (props) => {
     return all.flat();
   }, []);
 
-  // Calculate  about this child relative to the others
+  // Calculations about a child relative to the others
   const calculate = (child) => {
     const parentCalc = child.parent.calculations;
     const parentSibCount = child.parent.parent && child.parent.parent.children.length;
@@ -58,11 +59,12 @@ const Tree = (props) => {
   }
 
   const treeStyle = Object.assign({}, nodesStyle);
-  treeStyle.height = `calc(${treeStyle.height } + 460px)`
+  treeStyle.height = `calc(${treeStyle.height} + 460px)`
 
   return (
     <div className={styles.tree} style={treeStyle}>
       <div className={styles.treeNodes} style={nodesStyle}>
+        <RootNode {...family} />
         {getChildNodes(family.children)}
       </div>
     </div>
