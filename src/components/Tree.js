@@ -21,15 +21,13 @@ const Tree = (props) => {
   // Traverse the tree
   const getTreeNodes = (children) => children.reduce((all, child) => {
     child.calculations = calculate(child);
-    if (child.childId === 1) {
-      const style = polarToStyle(child.calculations.r, child.calculations.theta - child.calculations.singleNodeTheta / 2)
-      all.push(<ImgNode style={style} src={leaves[key % 3]} styleKey={'leaves'} key={key++} />);
-    }
     const style = polarToStyle(child.calculations.r, child.calculations.theta);
     all.push(<ChildNode {...child} half={child.calculations.half} style={style} key={key++} />);
-    if (child.childId === child.maxChildId) {
-      const style = polarToStyle(child.calculations.r, child.calculations.theta + child.calculations.singleNodeTheta / 2)
-      all.push(<ImgNode style={style} src={leaves[key % 3]} styleKey={'leaves'} key={key++} />);
+    if (child.childId === 1 && config.noBorders[child.name] !== "top") {
+      all.push(<ImgNode style={style} src={leaves[key % 3]} styleKey={'leavesTop'} key={key++} />);
+    }
+    if (child.childId === child.maxChildId && config.noBorders[child.name] !== "bottom") {
+      all.push(<ImgNode style={style} src={leaves[key % 3]} styleKey={'leavesBottom'} key={key++} />);
     }
     all.push(getTreeNodes(child.children));
     return all.flat();

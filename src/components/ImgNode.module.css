@@ -1,8 +1,22 @@
 .imgNode {
 }
 
-.leaves{
+.leavesTop{
+  margin-top: -50px;
+  
   --width: 250px;
   width: var(--width);
+  height: 20px;
   margin-left: calc(var(--width) / -2);
+  position: absolute;
+}
+
+.leavesBottom{
+  margin-top: 25px;
+  
+  --width: 250px;
+  width: var(--width);
+  height: 20px;
+  margin-left: calc(var(--width) / -2);
+  position: absolute;
 }
