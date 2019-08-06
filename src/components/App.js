@@ -2,6 +2,7 @@ import React from 'react';
 import Tree from './Tree.js';
 import config from './../config.js';
 import parse from '../parse.js';
+import styles from './App.module.css';
 
 /**
  * Wrapper component for full application
@@ -9,7 +10,7 @@ import parse from '../parse.js';
 const App = () => {
   const familyData = parse(config.data);
   return (
-    <div className="app">
+    <div className={styles.app}>
       <Tree familyData={familyData}/>
     </div>
   );

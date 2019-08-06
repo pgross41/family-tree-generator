@@ -1,0 +1,15 @@
+:global(.debugMode) .treeNode { 
+  border: 1px dashed #ff00ff !important;
+  border-image: none !important;
+  margin-top: -25px;
+}
+
+.treeNode{
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.left {
+  transform: rotate(180deg);
+}
