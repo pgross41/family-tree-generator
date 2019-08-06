@@ -11,7 +11,7 @@ const ChildNode = (props) => {
   const spouseName = props.spouseName || '';
   const spouseDate = props.spouseBorn + (props.spouseDied ? ` - ${props.spouseDied}` : '');
   return (
-    <TreeNode position={props.calculations} className={styles.childNode}>
+    <TreeNode half={props.half} style={props.style} className={styles.childNode}>
         <div className={styles.member}>
           <div className={styles.name}>{name}</div>
           <div className={styles.date}>{date}</div>

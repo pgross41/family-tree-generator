@@ -1,0 +1,8 @@
+.imgNode {
+}
+
+.leaves{
+  --width: 250px;
+  width: var(--width);
+  margin-left: calc(var(--width) / -2);
+}

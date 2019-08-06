@@ -3,6 +3,12 @@ import ChildNode from './ChildNode.js';
 import RootNode from './RootNode.js';
 import config from '../config.js';
 import styles from './Tree.module.css';
+import ImgNode from './ImgNode.js';
+import leaves1 from '../images/leaves1.png';
+import leaves2 from '../images/leaves2.png';
+import leaves3 from '../images/leaves3.png';
+
+const leaves = [leaves1, leaves2, leaves3];
 
 /**
  * The tree and the things in it
@@ -13,10 +19,19 @@ const Tree = (props) => {
   let key = 0;
 
   // Traverse the tree
-  const getChildNodes = (children) => children.reduce((all, child) => {
+  const getTreeNodes = (children) => children.reduce((all, child) => {
     child.calculations = calculate(child);
-    all.push(<ChildNode {...child} key={key++} />);
-    all.push(getChildNodes(child.children));
+    if (child.childId === 1) {
+      const style = polarToStyle(child.calculations.r, child.calculations.theta - child.calculations.singleNodeTheta / 2)
+      all.push(<ImgNode style={style} src={leaves[key % 3]} styleKey={'leaves'} key={key++} />);
+    }
+    const style = polarToStyle(child.calculations.r, child.calculations.theta);
+    all.push(<ChildNode {...child} half={child.calculations.half} style={style} key={key++} />);
+    if (child.childId === child.maxChildId) {
+      const style = polarToStyle(child.calculations.r, child.calculations.theta + child.calculations.singleNodeTheta / 2)
+      all.push(<ImgNode style={style} src={leaves[key % 3]} styleKey={'leaves'} key={key++} />);
+    }
+    all.push(getTreeNodes(child.children));
     return all.flat();
   }, []);
 
@@ -35,8 +50,6 @@ const Tree = (props) => {
     const theta0 = thetaStart + singleNodeTheta * (childId - (parentCalc ? config.bonusParentFactor : 1));
     const theta1 = Math.max(prevSiblingTheta + config.minThetaBetweenSibs, theta0);
     const theta = theta1 + (config.adjustments[child.name] || 0);
-    const x = (r * Math.cos(theta)) / 2 + 50; // Half because it goes left AND right
-    const y = (r * Math.sin(theta)) + 100; // Not half because it only goes up
     const isRightHalf = theta > (Math.PI + (Math.PI / 2));
     if (child.generationId === 1) {
       metadata.depthMinThetas[depth] = theta;
@@ -45,11 +58,17 @@ const Tree = (props) => {
       half: isRightHalf ? 'right' : 'left',
       singleNodeTheta: singleNodeTheta,
       theta: theta,
-      style: {
-        left: `${x}%`,
-        top: `${y}%`,
-        transform: `rotate(${theta}rad)`
-      }
+      r: r
+    }
+  }
+
+  const polarToStyle = (r, theta) => {
+    const x = (r * Math.cos(theta)) / 2 + 50; // Half because it goes left AND right
+    const y = (r * Math.sin(theta)) + 100; // Not half because it only goes up
+    return {
+      left: `${x}%`,
+      top: `${y}%`,
+      transform: `rotate(${theta}rad)`
     }
   }
 
@@ -65,7 +84,7 @@ const Tree = (props) => {
     <div className={styles.tree} style={treeStyle}>
       <div className={styles.treeNodes} style={nodesStyle}>
         <RootNode {...family} />
-        {getChildNodes(family.children)}
+        {getTreeNodes(family.children)}
       </div>
     </div>
   );

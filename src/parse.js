@@ -40,6 +40,7 @@ export default function (csvString) {
             metadata.depthCounts[depth] = generationId;
             child.generationId = generationId;
             child.childId = ++childId;
+            child.maxChildId = children.length;
             child.depth = depth;
             child.nodeId = ++nodeId;
             child.prevSibling = prevSiblings[depth];
