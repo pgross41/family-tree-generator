@@ -1,13 +1,22 @@
 const deg = (degrees) => (Math.PI / 180) * degrees
 
 export default {
-    maxAngle: deg(60),
-    minThetaBetweenSibs: 0,
-    bonusParentFactor: 1.5,
+    debugMode: false,
+    date: "August 2019",
+    treeWidth: "2000px",
+    treeHeight: "1000px",
+    maxAngle: Math.PI * 1.0,
+    minThetaBetweenSibs: deg(7),
+    bonusParentFactor: 2.5,
+    edgeLeafOffset: Math.PI / 30,
     adjustments: {
         "Abe Smith": deg(5),
         "Joe Smith": deg(-10)
-    }
+    },
+    noBorders: {
+        "Abe Smith": "top",
+        "Joe Smith": "bottom"
+    },
 }
 
 export const data = `

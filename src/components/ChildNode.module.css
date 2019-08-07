@@ -24,3 +24,18 @@
 .member, .spouse{
   display: inline-block;
 }
+
+.leaves {
+  width: 250px;
+  height: 20px;
+  display: block;
+  margin: auto;
+}
+
+.left {
+  transform: rotate(180deg);
+}
+
+.right {
+  transform: rotate(0deg);
+}
