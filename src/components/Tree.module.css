@@ -1,6 +1,6 @@
 .tree {
-  background-image: url(../images/tree2.png);
-  background-size: 300px;
+  background-image: url(../images/svg/grass-tree.svg);
+  background-size: auto 615px;
   background-repeat: no-repeat;
   background-position: center bottom;
 }

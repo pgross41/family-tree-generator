@@ -2,10 +2,10 @@
   position: absolute;
   left: 50%;
   bottom: -420px;
-  --width: 305px;
+  --width: 375px;
   width: var(--width);
   margin-left: calc(var(--width) / -2);
-  font-size: 1.7em;
+  font-size: 2em;
 }
 
 .rootNode .member {
