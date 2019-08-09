@@ -2,6 +2,7 @@ import React from 'react';
 import ChildNode from './ChildNode.js';
 import LeafNode from './LeafNode.js';
 import RootNode from './RootNode.js';
+import TreePie from './TreePie.js';
 import config from '../config.js';
 import styles from './Tree.module.css';
 
@@ -11,11 +12,11 @@ import styles from './Tree.module.css';
 const Tree = (props) => {
   const family = props.familyData.family;
   const metadata = props.familyData.metadata;
-  let key = 0;
 
   // Traverse the family tree and apend to the DOM's tree
+  let key = 0;
   const getChildNodes = (children) => children.reduce((all, child) => {
-    child.calculations = calculate(child);
+    child.calculations = getChildNodePosition(child);
     const style = polarToStyle(child.calculations.r, child.calculations.theta);
     all.push(<ChildNode {...child}
       half={child.calculations.half}
@@ -29,7 +30,7 @@ const Tree = (props) => {
   }, []);
 
   // Calculations about a child relative to the others
-  const calculate = (child) => {
+  const getChildNodePosition = (child) => {
     const parentCalc = child.parent.calculations;
     const parentSibCount = child.parent.parent && child.parent.parent.children.length;
     const maxTheta = parentCalc ? parentCalc.singleNodeTheta * parentSibCount : config.maxAngle;
@@ -70,16 +71,21 @@ const Tree = (props) => {
     const thetaStart = Math.min(...metadata.depthMinThetas.slice(1));
     const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1)));
     let key = 0;
+    let maxR = 0;
     Object.keys(metadata.depthCounts).forEach((depth) => {
       const leavesInRow = Math.round(depth * 40);
       [...Array(leavesInRow)].forEach((_, idx) => {
         const r = ((100 / metadata.depthCounts.length) * depth) + 10;
+        maxR = r > maxR ? r : maxR;
         const theta = thetaStart + ((thetaEnd - thetaStart) / (leavesInRow - 1)) * idx;
         const style = polarToStyle(r, theta);
         leafNodes.push(<LeafNode key={++key} id={key} style={style} size="small" />);
       });
     });
-    return leafNodes;
+    return {
+      leafNodes: leafNodes,
+      maxR: maxR
+    }
   }
 
   const getEdgeLeaves = () => {
@@ -87,38 +93,53 @@ const Tree = (props) => {
     const offset = Math.PI / 50;
     const thetaStart = Math.min(...metadata.depthMinThetas.slice(1)) + offset;
     const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1))) - offset;
+    const leftTheta = thetaStart - config.edgeLeafOffset
+    const rightTheta = thetaEnd + config.edgeLeafOffset
     let key = 0;
     [...Array(metadata.depthCounts.length)].forEach((_, depth) => {
-      console.log(depth);
       // The "edge" leaves
       if (parseInt(depth) !== 0) {
         const r = ((100 / metadata.depthCounts.length) * depth) - 11
         // Left side
-        const leftTheta = thetaStart - config.edgeLeafOffset
         leafNodes.push(<LeafNode id={++key} key={key} style={polarToStyle(r, leftTheta)} />);
         // Right side
-        const rightTheta = thetaEnd + config.edgeLeafOffset
         leafNodes.push(<LeafNode id={++key} key={key} style={polarToStyle(r, rightTheta)} />);
       }
     });
-    return leafNodes;
+    return {
+      leafNodes: leafNodes,
+      thetaStart: leftTheta
+    };
   }
 
-  const nodesStyle = {
+
+  const treeStyle = {
+    width: config.treeWidth,
+    height: `calc(${config.treeHeight} + 460px)`
+  }
+
+  const treePieStyle = {
+    width: config.treeWidth,
+    height: `calc(${config.treeHeight} * 2)`
+  }
+
+  const treeNodesStyle = {
     width: config.treeWidth,
     height: config.treeHeight
   }
 
-  const treeStyle = Object.assign({}, nodesStyle);
-  treeStyle.height = `calc(${treeStyle.height} + 460px)`
+  const childNodes = getChildNodes(family.children);
+  const generationLeaves = getGenerationLeaves();
+  const edgeLeaves = getEdgeLeaves()
 
   return (
     <div className={styles.tree} style={treeStyle}>
-      <div className={styles.treeNodes} style={nodesStyle}>
+      <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />
+      <div className={styles.treeNodes} style={treeNodesStyle}>
         <RootNode {...family} />
-        {getChildNodes(family.children)}
-        {getGenerationLeaves()}
-        {getEdgeLeaves()}
+        {childNodes}
+        {generationLeaves.leafNodes}
+        {edgeLeaves.leafNodes}
       </div>
     </div>
   );
