@@ -2,29 +2,40 @@ const deg = (degrees) => (Math.PI / 180) * degrees
 
 export default {
     debugMode: false,
+    title: "The Ballwin (Brother) Family",
     date: "August 2019",
-    treeWidth: "2000px",
-    treeHeight: "1000px",
+    treeWidth: "1500px",
+    treeHeight: "750px",
     maxAngle: Math.PI * 1.0,
-    minThetaBetweenSibs: deg(7),
-    bonusParentFactor: 2.5,
+    minThetaBetweenSibs: deg(10),
+    bonusParentFactor: 1.5,
     edgeLeafOffset: Math.PI / 30,
     adjustments: {
-        "Abe Smith": deg(5),
-        "Joe Smith": deg(-10)
+        "Carmen Gabriela Baldwin": deg(5),
+        "Justin Drew Bieber": deg(10),
+        "Stephen Andrew Baldwin": deg(-8)
     },
     noBorders: {
-        "Abe Smith": "top",
-        "Joe Smith": "bottom"
+        "Alexander Rae Baldwin III": "top",
+        "Stephen Andrew Baldwin": "bottom",
+        "Justin Drew Bieber": "bottom",
     },
-}
-
-export const data = `
+    data: `
 name,born,died,spouseName,spouseBorn,parentName
-Abe Smith,19-Jan-1937,,Amber Smith,25-Mar-1954,
-Bobby Smith,9-Apr-1961,,Barb Smith,24-Jun-1987,Abe Smith
-Betty Johnson,9-Apr-1961,,Bob Johnson,24-Jun-1987,Abe Smith
-Curtis Johnson,1-Jul-1990,,Carey Johnson,25-Sep-2014,Betty Johnson
-Dwayne Johnson,31-Sep-2018,,,,Curtis Johnson
-Dwight Johnson,31-October-2019,,,,Curtis Johnson
-`.trim()
+Alexander Rae Baldwin II,"Oct 26, 1927",15-Apr-83,Carol Martineau,"Dec 15, 1929",
+Alexander Rae Baldwin III,"Apr 3, 1958",,Kimila Ann Basinger,"Dec 8, 1953",Alexander Rae Baldwin II
+Carmen Gabriela Baldwin,"Aug 23, 2013",,,,Alexander Rae Baldwin III
+Rafael Thomas Baldwin,"Jun 17, 2015",,,,Alexander Rae Baldwin III
+Leonardo Angel Charles Baldwin,"Sep 12, 2016",,,,Alexander Rae Baldwin III
+Romeo Alejandro David Baldwin,"May 17, 2018",,,,Alexander Rae Baldwin III
+Daniel Leroy Baldwin,"Oct 5, 1960",,Joanne Clare Smith ,1969,Alexander Rae Baldwin II
+Avis Ann Baldwin,"Jan 17, 2008",,,,Daniel Leroy Baldwin
+Finley Rae Baldwin ,"Aug 7, 2009",,,,Daniel Leroy Baldwin
+William Joseph Baldwin,"Feb 21, 1963",, Chynna Gilliam Phillips,"Feb 12, 1968",Alexander Rae Baldwin II
+Jameson Baldwin�,2000,,,,William Joseph Baldwin
+Vance Baldwin ,2002,,,,William Joseph Baldwin
+Brooke Baldwin,2004,,,,William Joseph Baldwin
+Stephen Andrew Baldwin,"May 12, 1966",,Hailey Rhode Baldwin ,"Nov 22, 1996",Alexander Rae Baldwin II
+Justin Drew Bieber,"Mar 1, 1994",,,,Stephen Andrew Baldwin
+    `.trim()
+}

@@ -13,7 +13,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       <Tree familyData={familyData} />
-      <Title fullName={familyData.family.name} />
+      <Title />
     </div >
   );
 }
