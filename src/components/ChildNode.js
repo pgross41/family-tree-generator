@@ -2,9 +2,9 @@ import React from 'react';
 import TreeNode from './TreeNode.js';
 import styles from './ChildNode.module.css';
 
-import leaves1 from '../images/leaves1.png';
-import leaves2 from '../images/leaves2.png';
-import leaves3 from '../images/leaves3.png';
+import leaves1 from '../images/longLeaves1.svg';
+import leaves2 from '../images/longLeaves2.svg';
+import leaves3 from '../images/longLeaves3.svg';
 const leaves = [leaves1, leaves2, leaves3];
 
 /**

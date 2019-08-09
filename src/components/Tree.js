@@ -68,20 +68,27 @@ const Tree = (props) => {
 
   const getGenerationLeaves = () => {
     const leafNodes = [];
-    const thetaStart = Math.min(...metadata.depthMinThetas.slice(1));
-    const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1)));
+    const offset = Math.PI / 50;
+    const thetaStart = Math.min(...metadata.depthMinThetas.slice(1)) - offset;
+    const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1))) + offset;
     let key = 0;
     let maxR = 0;
-    Object.keys(metadata.depthCounts).forEach((depth) => {
-      const leavesInRow = Math.round(depth * 40);
+    const addRow = (depth, extraR = 0, mod = 1) => {
+      const leavesInRow = Math.round(depth * 25);
       [...Array(leavesInRow)].forEach((_, idx) => {
-        const r = ((100 / metadata.depthCounts.length) * depth) + 10;
-        maxR = r > maxR ? r : maxR;
-        const theta = thetaStart + ((thetaEnd - thetaStart) / (leavesInRow - 1)) * idx;
-        const style = polarToStyle(r, theta);
-        leafNodes.push(<LeafNode key={++key} id={key} style={style} size="small" />);
+        if (!(idx % mod)) {
+          const r = ((100 / metadata.depthCounts.length) * depth) + 10 + extraR;
+          maxR = r < maxR || extraR ? maxR : r;
+          const theta = thetaStart + ((thetaEnd - thetaStart) / (leavesInRow - 1)) * idx;
+          const style = polarToStyle(r, theta);
+          leafNodes.push(<LeafNode key={++key} id={key} style={style} size="small" />);
+        }
       });
-    });
+
+    }
+    Object.keys(metadata.depthCounts).forEach((depth) => addRow(depth));
+    addRow(metadata.depthCounts.length-1, 5, 2);
+    addRow(metadata.depthCounts.length - 1, 8, 5);
     return {
       leafNodes: leafNodes,
       maxR: maxR

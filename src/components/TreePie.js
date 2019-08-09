@@ -1,5 +1,5 @@
 import React from 'react';
-import pattern from './../images/svg/leaf-square-2.svg';
+import pattern from './../images/squareLeaf2.svg';
 import styles from './TreePie.module.css';
 
 /**
@@ -7,7 +7,7 @@ import styles from './TreePie.module.css';
  */
 const TreePie = (props) => {
 
-  const r = props.r / 100;
+  const r = props.r;
   const thetaEnd = Math.PI * 2 + (Math.PI - props.thetaStart);
   const borderOffset = Math.PI / 100;
   const startX = Math.cos(props.thetaStart + borderOffset) * r
@@ -22,11 +22,11 @@ const TreePie = (props) => {
   ].join(' ');
 
   // This is totally eyeballed since the viewport is size 2 the pattern needs to shrink
-  const patternWidth = 215 * 0.0008;
-  const patternHeight = 162 * 0.0008;
+  const patternWidth = 215 / 5;
+  const patternHeight = 162 / 5;
 
   return (
-    <svg className={styles.treePie} style={props.style} viewBox="-1 -1 2 2">
+    <svg className={styles.treePie} style={props.style} viewBox="-100 -100 200 200">
       <defs>
         <pattern id="leaf-square" patternUnits="userSpaceOnUse" width={patternWidth} height={patternHeight}>
           <image href={pattern} x="0" y="0" width={patternWidth} height={patternHeight}/>

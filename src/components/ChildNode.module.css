@@ -26,8 +26,7 @@
 }
 
 .leaves {
-  width: 250px;
-  height: 20px;
+  height: 25px;
   display: block;
   margin: auto;
 }
@@ -38,4 +37,7 @@
 
 .right {
   transform: rotate(0deg);
+}
+
+.left, .right{
 }
