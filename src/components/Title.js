@@ -9,8 +9,8 @@ const Title = (props) => {
   return (
     <div className={styles.title} style={{ width: config.treeWidth }}>
       {config.title}
-      <div className={styles.date}>
-        {config.date}
+      <div className={styles.subTitle}>
+        {config.subTitle}
       </div>
     </div>
   );
