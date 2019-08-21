@@ -14,10 +14,7 @@ import Context from './Context';
  */
 const App = () => {
   const [config, replaceConfig] = useState(defaultConfig);
-  const setConfig = (zoom) => {
-    replaceConfig({ ...config, zoom: zoom })
-    console.log(config)
-  }
+  const setConfig = (partialConfig) => replaceConfig({ ...config, ...partialConfig })
   const familyData = parse(config.data);
   return (
     <div className={styles.app}>
