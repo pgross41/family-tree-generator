@@ -36,6 +36,7 @@
   background-color: #555;
   border-radius: 10px;
   cursor: pointer;
+  user-select: none;
 }
 
 .panelButton:hover {

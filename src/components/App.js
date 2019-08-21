@@ -19,9 +19,9 @@ const App = () => {
   return (
     <div className={styles.app}>
       <Context.Provider value={{ config, setConfig }}>
-        <Tree familyData={familyData} config={config} />
-        <Title config={config} />
-        <ToolsPanel defaultConfig={defaultConfig} />
+        <Tree familyData={familyData} />
+        <Title />
+        <ToolsPanel />
       </Context.Provider>
     </div>
   );

@@ -4,13 +4,14 @@ import LeafNode from './LeafNode.js';
 import RootNode from './RootNode.js';
 import TreePie from './TreePie.js';
 import styles from './Tree.module.css';
+import Context from './../Context';
 
 /**
  * The tree and the things in it
  */
 const Tree = (props) => {
-  const config = props.config;
-  console.log(config);
+  const context = React.useContext(Context);
+  const config = context.config;
   const family = props.familyData.family;
   const metadata = props.familyData.metadata;
 
