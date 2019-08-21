@@ -1,5 +1,5 @@
 import React from 'react';
-import pattern from './../images/squareLeaf2.svg';
+import pattern from './../../images/squareLeaf2.svg';
 import styles from './TreePie.module.css';
 
 /**

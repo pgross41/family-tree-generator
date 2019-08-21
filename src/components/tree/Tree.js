@@ -3,7 +3,7 @@ import ChildNode from './ChildNode.js';
 import LeafNode from './LeafNode.js';
 import RootNode from './RootNode.js';
 import TreePie from './TreePie.js';
-import config from '../config.js';
+import config from '../../config.js';
 import styles from './Tree.module.css';
 
 /**
