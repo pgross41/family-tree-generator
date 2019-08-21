@@ -12,6 +12,7 @@
   right: 0px;
   width: var(--panelWidth);
   transition: margin 0.2s;
+  color: #fff;
 }
 
 .panel.closed { 
@@ -19,13 +20,13 @@
 }
 
 .panelButtons {
+  position: absolute;
   width: var(--buttonWidth);
   margin-left: calc(var(--buttonWidth) * -1);
   margin-top: 10px;
   background-color: var(--backgroundColor);
   font-size: 32px;
   font-weight: bold;
-  color: #fff;
   text-align: center;
   border-radius: 10px 0 0 10px;
   padding: 1px;
