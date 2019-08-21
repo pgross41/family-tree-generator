@@ -1,0 +1,48 @@
+:root { 
+  --panelWidth: 500px;
+  --backgroundColor: #444;
+  --buttonWidth: 50px;
+}
+
+.panel {
+  background-color: var(--backgroundColor);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0px;
+  width: var(--panelWidth);
+  transition: margin 0.2s;
+}
+
+.panel.closed { 
+  margin-right: calc(var(--panelWidth) * -1);
+}
+
+.panelButtons {
+  width: var(--buttonWidth);
+  margin-left: calc(var(--buttonWidth) * -1);
+  margin-top: 10px;
+  background-color: var(--backgroundColor);
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px 0 0 10px;
+  padding: 1px;
+}
+
+.panelButton {
+  margin: 5px;
+  background-color: #555;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.panelButton:hover {
+  opacity: 0.7;
+}
+
+.settingsButton {
+  font-size: 0.7em;
+  line-height: 2.1em;
+}

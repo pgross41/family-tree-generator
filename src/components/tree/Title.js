@@ -1,11 +1,11 @@
 import React from 'react';
-import config from './../../config.js';
 import styles from './Title.module.css';
 
 /**
  * The name of the family
  */
 const Title = (props) => {
+  const config = props.config
   return (
     <div className={styles.title} style={{ width: config.treeWidth }}>
       {config.title}

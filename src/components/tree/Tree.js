@@ -3,13 +3,14 @@ import ChildNode from './ChildNode.js';
 import LeafNode from './LeafNode.js';
 import RootNode from './RootNode.js';
 import TreePie from './TreePie.js';
-import config from '../../config.js';
 import styles from './Tree.module.css';
 
 /**
  * The tree and the things in it
  */
 const Tree = (props) => {
+  const config = props.config;
+  console.log(config);
   const family = props.familyData.family;
   const metadata = props.familyData.metadata;
 
@@ -122,7 +123,8 @@ const Tree = (props) => {
 
   const treeStyle = {
     width: config.treeWidth,
-    height: `calc(${config.treeHeight} + 460px)`
+    height: `calc(${config.treeHeight} + 460px)`,
+    zoom: config.zoom
   }
 
   const treePieStyle = {
