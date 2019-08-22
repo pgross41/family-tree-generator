@@ -27,7 +27,7 @@ const Fields = (props) => {
             <TextField label="Max Angle" configKey="maxAngle" />
           </div>
           <div className={styles.inline}>
-            <TextField label="Min Angle Between Siblings" configKey="minThetaBetweenSibs" />
+            <TextField label="Min Sibling Angle" configKey="minThetaBetweenSibs" />
           </div>
         </div>
         <div>

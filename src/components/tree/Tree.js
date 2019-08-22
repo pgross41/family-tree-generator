@@ -24,8 +24,8 @@ const Tree = (props) => {
       half={child.calculations.half}
       style={style}
       key={key++}
-      hasTopBorder={child.childId === 1 && config.noBorders[child.name] !== "top"}
-      hasBottomBorder={child.childId === child.maxChildId && config.noBorders[child.name] !== "bottom"}
+      hasTopBorder={child.childId === 1 && !child.noBorder}
+      hasBottomBorder={child.childId === child.maxChildId && !child.noBorder}
     />);
     all.push(getChildNodes(child.children));
     return all.flat();
@@ -45,7 +45,7 @@ const Tree = (props) => {
     const prevSiblingTheta = (child.prevSibling && child.prevSibling.calculations.theta) || 0;
     const theta0 = thetaStart + singleNodeTheta * (childId - (parentCalc ? config.bonusParentFactor : 1));
     const theta1 = Math.max(prevSiblingTheta + config.minThetaBetweenSibs, theta0);
-    const theta = theta1 + (config.adjustments[child.name] || 0);
+    const theta = theta1 + (child.offsetAngle || 0) * (Math.PI / 180);
     const isRightHalf = theta > (Math.PI + (Math.PI / 2));
     if (child.generationId === 1) {
       metadata.depthMinThetas[depth] = theta;
@@ -89,7 +89,7 @@ const Tree = (props) => {
 
     }
     Object.keys(metadata.depthCounts).forEach((depth) => addRow(depth));
-    addRow(metadata.depthCounts.length-1, 5, 2);
+    addRow(metadata.depthCounts.length - 1, 5, 2);
     addRow(metadata.depthCounts.length - 1, 8, 5);
     return {
       leafNodes: leafNodes,

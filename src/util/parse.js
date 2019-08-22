@@ -7,29 +7,32 @@
 import Papa from 'papaparse';
 const _ = require('lodash');
 
-export default function (csvString) {
+export default function (memberDataOrmembersCsvString) {
 
-    // Read CSV
-    const data = Papa.parse(csvString, {header: true}).data;
+    // Read data
+    const isCsv = typeof memberDataOrmembersCsvString == "string"
+    const data = isCsv
+        ? Papa.parse(memberDataOrmembersCsvString, { header: true }).data
+        : memberDataOrmembersCsvString;
 
     // Create relationships
     const getChildren = (parent) => _.chain(data)
-        .filter(row => parent.name === row.parentName)
+        .filter(row => isCsv ? parent.name === row.parentName : parent.id === row.parentId)
         .map(child => _.extend(child, { parent: parent, children: getChildren(child) }))
         .each(row => row._included = true)
         .value()
-    const root = _.find(data, row => _.isEmpty(row.parentName));
+    const root = _.find(data, row => _.isEmpty(isCsv ? row.parentName : row.parentId));
     const family = _.extend(root, { children: getChildren(root), depth: 0 });
 
     // Check for orphans, likely due to misspelled name or parentName
     _.chain(data)
         .filter(row => row !== root & !row._included)
-        .each(badRow => console.error(`${badRow.name} is not included! parentName: ${badRow.parentName}`))
+        .each(badRow => console.error(`${badRow.name} is not included! parent: ${isCsv ? badRow.parentName : badRow.parentId}`))
         .value();
 
     // Calculate metadata, nodeIDs, and remove the temp _included field
     let nodeId = 0;
-    const metadata = { depthCounts: [1], depthMinThetas:[undefined] }
+    const metadata = { depthCounts: [1], depthMinThetas: [undefined] }
     const prevSiblings = []; // This does not require same parent 
     const handleChildren = (children, depth = 0) => {
         depth++;
@@ -42,13 +45,15 @@ export default function (csvString) {
             child.childId = ++childId;
             child.maxChildId = children.length;
             child.depth = depth;
-            child.nodeId = ++nodeId;
+            child.nodeId = isCsv ? ++nodeId : child.id;
             child.prevSibling = prevSiblings[depth];
             prevSiblings[depth] = child;
             handleChildren(child.children, depth);
         })
     };
     handleChildren(family.children);
+
+    console.log(metadata);
 
     return {
         family: family,
