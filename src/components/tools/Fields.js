@@ -24,18 +24,18 @@ const Fields = (props) => {
         </div>
         <div>
           <div className={styles.inline}>
-            <TextField label="Max Angle" configKey="maxAngle" />
+            <TextField label="Tree Angle" configKey="treeAngle" />
           </div>
           <div className={styles.inline}>
-            <TextField label="Min Sibling Angle" configKey="minThetaBetweenSibs" />
+            <TextField label="Min Sibling Angle" configKey="minAngleBetweenSibs" />
           </div>
         </div>
         <div>
           <div className={styles.inline}>
-            <TextField label="Bonus Parent Factor" configKey="bonusParentFactor" />
+            <TextField label="Child Offset Factor" configKey="childOffsetFactor" />
           </div>
           <div className={styles.inline}>
-            <TextField label="Edge Leaf Offset" configKey="edgeLeafOffset" />
+            <TextField label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
           </div>
         </div>
         <h3>Members</h3>

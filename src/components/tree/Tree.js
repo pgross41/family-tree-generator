@@ -6,6 +6,8 @@ import TreePie from './TreePie.js';
 import styles from './Tree.module.css';
 import Context from './../Context';
 
+const toRad = (degrees) => degrees * (Math.PI / 180)
+
 /**
  * The tree and the things in it
  */
@@ -35,7 +37,7 @@ const Tree = (props) => {
   const getChildNodePosition = (child) => {
     const parentCalc = child.parent.calculations;
     const parentSibCount = child.parent.parent && child.parent.parent.children.length;
-    const maxTheta = parentCalc ? parentCalc.singleNodeTheta * parentSibCount : config.maxAngle;
+    const maxTheta = parentCalc ? parentCalc.singleNodeTheta * parentSibCount : toRad(config.treeAngle);
     const depth = child.depth;
     const maxDepth = metadata.depthCounts.length;
     const r = (100 / maxDepth) * child.depth;
@@ -43,9 +45,9 @@ const Tree = (props) => {
     const childId = child.childId;
     const thetaStart = parentCalc ? parentCalc.theta : Math.PI + (Math.PI - maxTheta) / 2;
     const prevSiblingTheta = (child.prevSibling && child.prevSibling.calculations.theta) || 0;
-    const theta0 = thetaStart + singleNodeTheta * (childId - (parentCalc ? config.bonusParentFactor : 1));
-    const theta1 = Math.max(prevSiblingTheta + config.minThetaBetweenSibs, theta0);
-    const theta = theta1 + (child.offsetAngle || 0) * (Math.PI / 180);
+    const theta0 = thetaStart + singleNodeTheta * (childId - (parentCalc ? config.childOffsetFactor : 1));
+    const theta1 = Math.max(prevSiblingTheta + toRad(config.minAngleBetweenSibs), theta0);
+    const theta = theta1 + toRad(child.offsetAngle || 0);
     const isRightHalf = theta > (Math.PI + (Math.PI / 2));
     if (child.generationId === 1) {
       metadata.depthMinThetas[depth] = theta;
@@ -102,8 +104,8 @@ const Tree = (props) => {
     const offset = Math.PI / 50;
     const thetaStart = Math.min(...metadata.depthMinThetas.slice(1)) + offset;
     const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1))) - offset;
-    const leftTheta = thetaStart - config.edgeLeafOffset
-    const rightTheta = thetaEnd + config.edgeLeafOffset
+    const leftTheta = thetaStart - toRad(config.edgeLeafOffsetAngle)
+    const rightTheta = thetaEnd + toRad(config.edgeLeafOffsetAngle)
     let key = 0;
     [...Array(metadata.depthCounts.length)].forEach((_, depth) => {
       // The "edge" leaves
