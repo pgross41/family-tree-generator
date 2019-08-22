@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Fields.module.css';
-import TextField from './TextField';
+import Field from './Field';
 import config from '../../config';
+import MemberField from './MemberField';
 
 /**
  * Popout tools fields
@@ -11,35 +12,17 @@ const Fields = (props) => {
     <div className={styles.fields}>
       <div className={styles.fieldsScroll}>
         <h3>Labels</h3>
-        <TextField label="Title" configKey="title" />
-        <TextField label="Subtitle" configKey="subTitle" />
-        <h3>Math</h3>
-        <div>
-          <div className={styles.inline}>
-            <TextField label="Width" configKey="treeWidth" />
-          </div>
-          <div className={styles.inline}>
-            <TextField label="Height" configKey="treeHeight" />
-          </div>
-        </div>
-        <div>
-          <div className={styles.inline}>
-            <TextField label="Tree Angle" configKey="treeAngle" />
-          </div>
-          <div className={styles.inline}>
-            <TextField label="Min Sibling Angle" configKey="minAngleBetweenSibs" />
-          </div>
-        </div>
-        <div>
-          <div className={styles.inline}>
-            <TextField label="Child Offset Factor" configKey="childOffsetFactor" />
-          </div>
-          <div className={styles.inline}>
-            <TextField label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
-          </div>
-        </div>
-        <h3>Members</h3>
-        {JSON.stringify(config.data)}
+        <Field label="Title" configKey="title" />
+        <Field label="Subtitle" configKey="subTitle" />
+        <h3>Tree Math</h3>
+        <Field label="Width" configKey="treeWidth" />
+        <Field label="Height" configKey="treeHeight" />
+        <Field label="Tree Angle" configKey="treeAngle" />
+        <Field label="Min Sibling Angle" configKey="minAngleBetweenSibs" />
+        <Field label="Child Offset Factor" configKey="childOffsetFactor" />
+        <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
+        <h3>Family Members</h3>
+        <MemberField member={config.members[0]} root={true}/>
       </div>
     </div>
   );
