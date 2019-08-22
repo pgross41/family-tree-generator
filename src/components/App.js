@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Tree from './tree/Tree.js';
-import ToolsPanel from './tools/Panel.js';
+import ToolsPanel from './menu/Panel.js';
 import Title from './tree/Title.js';
 import defaultConfig from './../config.js';
 import parse from '../util/parse.js';

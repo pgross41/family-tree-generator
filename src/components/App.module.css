@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .app {
   color: #111111;
   font-size: 14px;
