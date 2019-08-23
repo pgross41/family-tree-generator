@@ -22,7 +22,7 @@ const Fields = (props) => {
         <Field label="Child Offset Factor" configKey="childOffsetFactor" />
         <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
         <h3>Family Members</h3>
-        <MemberField member={config.members[0]} root={true}/>
+        <MemberField member={config.members[0]} root={true} />
       </div>
     </div>
   );

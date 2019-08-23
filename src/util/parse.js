@@ -34,7 +34,7 @@ export default function (memberDataOrmembersCsvString) {
     let nodeId = 0;
     const metadata = { depthCounts: [1], depthMinThetas: [undefined] }
     const prevSiblings = []; // This does not require same parent 
-    const handleChildren = (children, depth = 0) => {
+    const handleChildren = (children, depth = 0, ancestors = [1]) => {
         depth++;
         let childId = 0;
         _.each(children, (child) => {
@@ -47,14 +47,15 @@ export default function (memberDataOrmembersCsvString) {
             child.depth = depth;
             child.nodeId = isCsv ? ++nodeId : child.id;
             child.prevSibling = prevSiblings[depth];
+            child.ancestors = ancestors;
             prevSiblings[depth] = child;
-            handleChildren(child.children, depth);
+            handleChildren(child.children, depth, [...ancestors, child.nodeId]);
         })
     };
     handleChildren(family.children);
 
     return {
         family: family,
-        metadata: metadata
+        metadata: metadata,
     };
 }

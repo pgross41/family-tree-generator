@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Panel.module.css';
 import Context from './../Context';
 import Fields from './Fields';
+import { MdSettings, MdZoomIn, MdZoomOut } from "react-icons/md";
 
 /**
  * Popout tools panel
@@ -16,13 +17,13 @@ const Panel = (props) => {
     <div className={className}>
       <div className={styles.panelButtons}>
         <div className={styles.panelButton} onClick={() => setClosed(!closed)}>
-          <span className={styles.settingsButton} role="img" aria-label="settings">⚙️</span>
+          <span className={styles.settingsButton}><MdSettings /></span>
         </div>
         <div className={styles.panelButton} onClick={() => increaseZoom(+0.1)}>
-          <span>+</span>
+          <span><MdZoomIn /></span>
         </div>
         <div className={styles.panelButton} onClick={() => increaseZoom(-0.1)}>
-          <span>−</span>
+          <span><MdZoomOut /></span>
         </div>
       </div>
       <Fields />

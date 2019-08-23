@@ -1,11 +1,14 @@
 import React from 'react';
 import fieldStyles from './Field.module.css';
 import styles from './MemberField.module.css';
+import { MdChevronRight, MdExpandMore } from "react-icons/md";
+import Context from './../Context';
 
 /**
  * Represents a family member (plus their children)
  */
-const MemberField = (props) => {
+const MemberField = React.memo((props) => {
+  const context = React.useContext(Context);
   const member = props.member;
   const [isHover, setHover] = React.useState(false);
   const className = `${fieldStyles.field} ${styles.memberField} ${props.root ? styles.root : ''} ${isHover ? styles.hover : ''}`
@@ -14,18 +17,26 @@ const MemberField = (props) => {
     event.stopPropagation();
     setHover(hover)
   };
+  const toggleExpand = (event) => {
+    event.stopPropagation();
+    const fakeParentMember = { id: member.parentId, ancestors: member.ancestors }; // TODO: Make member.parent available 
+    context.setSelectedMember(member.id === context.selectedMember.id ? fakeParentMember : member);
+  }
 
   const collapsed = (
     <>
-      <div>{name}</div>
-      <>{props.member.children.map(member => (
-        <MemberField member={member} key={member.id} />
-      ))}</>
+      <div>{name}<MdChevronRight className={styles.toggleExpandButton} onClick={toggleExpand} /></div>
+      <>{context.selectedMember.ancestors
+        && context.selectedMember.ancestors.includes(member.id)
+        && props.member.children.map(member => (
+          <MemberField member={member} key={member.id} />
+        ))}</>
     </>
   )
 
   const expanded = (
     <>
+      <div>{name}<MdExpandMore className={styles.toggleExpandButton} onClick={toggleExpand} /></div>
       <div>
         <div>Name / Birth / Death</div>
         <input defaultValue={member.name}></input>
@@ -59,10 +70,13 @@ const MemberField = (props) => {
 
   // So much work for hover because of propagation
   return (
-    <div className={className} onMouseOver={(event) => handleHover(event, true)} onMouseOut={(event) => handleHover(event, false)}>
-      {collapsed}
+    <div
+      className={className}
+      onMouseOver={(event) => handleHover(event, true)}
+      onMouseOut={(event) => handleHover(event, false)}>
+      {member.id === context.selectedMember.id ? expanded : collapsed}
     </div >
   );
-}
+});
 
 export default MemberField;
