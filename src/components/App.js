@@ -14,7 +14,7 @@ import Context from './Context';
  */
 const App = () => {
   const [config, replaceConfig] = useState(defaultConfig);
-  const setConfig = (partialConfig) => replaceConfig({ ...config, ...partialConfig })
+  const setConfig = (partialConfig) => replaceConfig({ ...config, ...partialConfig });
   const familyData = parse(config.members || config.membersCsv);
   return (
     <div className={styles.app}>

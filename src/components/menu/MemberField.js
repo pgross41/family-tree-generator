@@ -60,7 +60,7 @@ const MemberField = (props) => {
   // So much work for hover because of propagation
   return (
     <div className={className} onMouseOver={(event) => handleHover(event, true)} onMouseOut={(event) => handleHover(event, false)}>
-      {expanded}
+      {collapsed}
     </div >
   );
 }

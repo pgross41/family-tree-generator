@@ -53,8 +53,6 @@ export default function (memberDataOrmembersCsvString) {
     };
     handleChildren(family.children);
 
-    console.log(metadata);
-
     return {
         family: family,
         metadata: metadata
