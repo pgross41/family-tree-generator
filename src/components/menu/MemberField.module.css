@@ -5,8 +5,13 @@
   border-right: 1px solid transparent;
 }
 
-.memberField.hover{
+.active{
   background-color: #777;
+}
+
+.highlight {
+  color: #d5e65c;
+  font-weight: bold; 
 }
 
 .root {
@@ -31,8 +36,12 @@
   display: inline-block;
 }
 
+.name{
+  cursor: pointer;
+}
+
 .toggleExpandButton{
   float: right;
   font-size: 26px;
-  cursor: pointer;
+  width: 40px;
 }

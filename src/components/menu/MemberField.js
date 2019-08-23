@@ -10,33 +10,33 @@ import Context from './../Context';
 const MemberField = React.memo((props) => {
   const context = React.useContext(Context);
   const member = props.member;
-  const [isHover, setHover] = React.useState(false);
-  const className = `${fieldStyles.field} ${styles.memberField} ${props.root ? styles.root : ''} ${isHover ? styles.hover : ''}`
+  const isAncestorOfSelected = context.selectedMember.ancestors && context.selectedMember.ancestors.includes(member.id)
+  const isActive = member.id === context.selectedMember.id;
+  const className = `${fieldStyles.field} ${styles.memberField} ${props.root ? styles.root : ''} ${isActive ? styles.active : ''}`
   const name = member.name + (member.spouseName ? ' and ' : '') + member.spouseName;
-  const handleHover = (event, hover) => {
-    event.stopPropagation();
-    setHover(hover)
-  };
   const toggleExpand = (event) => {
     event.stopPropagation();
     const fakeParentMember = { id: member.parentId, ancestors: member.ancestors }; // TODO: Make member.parent available 
     context.setSelectedMember(member.id === context.selectedMember.id ? fakeParentMember : member);
   }
+  const nameClassName = `${styles.name} ${isActive || isAncestorOfSelected ? styles.highlight : ''}`;
 
   const collapsed = (
     <>
-      <div>{name}<MdChevronRight className={styles.toggleExpandButton} onClick={toggleExpand} /></div>
-      <>{context.selectedMember.ancestors
-        && context.selectedMember.ancestors.includes(member.id)
-        && props.member.children.map(member => (
-          <MemberField member={member} key={member.id} />
-        ))}</>
+      <div onClick={toggleExpand} className={nameClassName}>
+        {name}<MdChevronRight className={styles.toggleExpandButton} />
+      </div>
+      <>{isAncestorOfSelected && props.member.children.map(member => (
+        <MemberField member={member} key={member.id} />
+      ))}</>
     </>
   )
 
   const expanded = (
     <>
-      <div>{name}<MdExpandMore className={styles.toggleExpandButton} onClick={toggleExpand} /></div>
+      <div onClick={toggleExpand} className={nameClassName}>
+        {name}<MdExpandMore className={styles.toggleExpandButton} />
+      </div>
       <div>
         <div>Name / Birth / Death</div>
         <input defaultValue={member.name}></input>
@@ -70,11 +70,8 @@ const MemberField = React.memo((props) => {
 
   // So much work for hover because of propagation
   return (
-    <div
-      className={className}
-      onMouseOver={(event) => handleHover(event, true)}
-      onMouseOut={(event) => handleHover(event, false)}>
-      {member.id === context.selectedMember.id ? expanded : collapsed}
+    <div className={className}>
+      {isActive ? expanded : collapsed}
     </div >
   );
 });
