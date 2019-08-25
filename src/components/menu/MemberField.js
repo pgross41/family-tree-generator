@@ -9,6 +9,10 @@ import { handleNumberFieldArrowKey } from '../../util/eventHandlers';
  * Represents a family member (plus their children)
  */
 const MemberField = React.memo((props) => {
+
+  /**
+   * Helper vars
+   */
   const context = React.useContext(Context);
   const member = props.member;
   const selectedMember = context.selectedMember || {};
@@ -16,18 +20,48 @@ const MemberField = React.memo((props) => {
   const isActive = member.id === selectedMember.id;
   const className = `${fieldStyles.configField} ${styles.memberField} ${props.root ? styles.root : ''} ${isActive ? styles.active : ''}`
   const name = member.name + (member.spouseName ? ' and ' : '') + member.spouseName;
-  const toggleExpand = (event) => {
-    event.stopPropagation();
-    context.setSelectedMember(member.id === selectedMember.id ? member.parent || {} : member);
-  }
   const nameClassName = `${styles.name} ${isActive || isAncestorOfSelected ? styles.highlight : ''}`;
-
   const updateMemberField = (key, value) => {
     context.config.members.find(membr => membr.id === member.id)[key] = value;
     context.setConfig({ members: context.config.members });
   }
+
+  /**
+   * Event handlers
+   */
+  const onClickExpand = (event) => {
+    event.stopPropagation();
+    context.setSelectedMember(member.id === selectedMember.id ? member.parent || {} : member);
+  }
+
+  const onClickRemove = (event) => {
+    if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
+    const childCount = member.children.length;
+    const message = `This will also remove ${childCount} child${childCount > 1 ? 'ren' : ''}, are you absolutely sure?`;
+    if (childCount && !window.confirm(message)) return;
+    const getDescendentIds = (member) => [
+      member.id,
+      ...member.children.map(child => child.id),
+      ...member.children.map(child => getDescendentIds(child))
+    ].flat();
+    const descendents = getDescendentIds(member);
+    context.setConfig({ members: context.config.members.filter(member => !descendents.includes(member.id)) });
+    context.setSelectedMember(member.parent || {});
+  }
+
+  const onClickAddChild = (event) => {
+    context.config.members.find(membr => membr.id === member.id).children.push({key:"value"})
+    console.log(context.config.members);
+    context.setConfig({ members: context.config.members});
+    context.setSelectedMember(member.parent || {});
+  }
+
   const onFieldChange = (event, memberKey, value) => updateMemberField(memberKey, value === undefined ? event.target.value : value);
   const onFieldKeyDown = (event, memberKey) => updateMemberField(memberKey, handleNumberFieldArrowKey(event));
+
+  /**
+   * Elements 
+   */
   const textInput = (props) => (<input
     value={member[props.configKey] || props.defaultValue || ''}
     onChange={(event) => onFieldChange(event, props.configKey)}
@@ -58,7 +92,7 @@ const MemberField = React.memo((props) => {
       {!props.root && <>
         <div className={styles.inline}>
           <div>Angle Adjustment</div>
-          {textInput({ configKey: "offsetAngle", defaultValue: "0"})}
+          {textInput({ configKey: "offsetAngle", defaultValue: "0" })}
         </div>
         <div className={styles.inline}>
           <div>Hide Border</div>
@@ -68,13 +102,20 @@ const MemberField = React.memo((props) => {
             onChange={(event) => onFieldChange(event, "noBorder", event.target.checked)}>
           </input>
         </div>
+        <div className={`${styles.inline} ${styles.removeButton} `}>
+          <div>&nbsp;</div>
+          <button onClick={onClickRemove}>Remove</button>
+        </div>
       </>}
       <div>
-        <div>{props.member.children.length ? "Children" : <button>Add Child</button>} </div>
+        <div>Children</div>
         <div>
           {props.member.children.map(member => (
             <MemberField member={member} key={member.id} />
           ))}
+        </div>
+        <div className={styles.addChildButton}>
+          <button onClick={onClickAddChild}>Add Child</button>
         </div>
       </div>
     </>
@@ -82,10 +123,9 @@ const MemberField = React.memo((props) => {
 
   const ToggleExpandButton = isActive ? MdExpandMore : MdChevronRight;
 
-  // So much work for hover because of propagation
   return (
     <div className={className}>
-      <div onClick={toggleExpand} className={nameClassName}>
+      <div onClick={onClickExpand} className={nameClassName}>
         {name}<ToggleExpandButton className={styles.toggleExpandButton} />
       </div>
       {isActive ? expanded : collapsed}
