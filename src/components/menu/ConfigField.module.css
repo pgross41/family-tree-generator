@@ -1,4 +1,4 @@
-.field {
+.configField {
   padding: 0 10px 10px;
   font-size: 15px;
   margin-bottom: 10px;
@@ -11,6 +11,6 @@
   border: 1px solid #666;
 }
 
-.field input {
+.configField input {
   width: 100%;
 }

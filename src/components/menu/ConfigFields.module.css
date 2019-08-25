@@ -1,4 +1,4 @@
-.fields {
+.configFields {
     padding: 10px;
     margin-right: 10px;
     position: absolute;
@@ -16,7 +16,7 @@
     width: 100%;
   }
 
-.fields h3 {
+.configFields h3 {
     margin-bottom: 5px;
 }
 

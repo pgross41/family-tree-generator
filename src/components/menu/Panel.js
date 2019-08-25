@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Panel.module.css';
 import Context from './../Context';
-import Fields from './Fields';
+import ConfigFields from './ConfigFields';
 import { MdSettings, MdZoomIn, MdZoomOut } from "react-icons/md";
 
 /**
@@ -26,7 +26,7 @@ const Panel = (props) => {
           <span><MdZoomOut /></span>
         </div>
       </div>
-      <Fields />
+      <ConfigFields />
     </div>
   );
 }
