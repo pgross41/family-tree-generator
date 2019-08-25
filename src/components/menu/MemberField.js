@@ -36,16 +36,14 @@ const MemberField = React.memo((props) => {
 
   const onClickRemove = (event) => {
     if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
-    const childCount = member.children.length;
-    const message = `This will also remove ${childCount} child${childCount > 1 ? 'ren' : ''}, are you absolutely sure?`;
-    if (childCount && !window.confirm(message)) return;
     const getDescendentIds = (member) => [
-      member.id,
       ...member.children.map(child => child.id),
       ...member.children.map(child => getDescendentIds(child))
     ].flat();
     const descendents = getDescendentIds(member);
-    context.setConfig({ members: context.config.members.filter(member => !descendents.includes(member.id)) });
+    const message = `This will also remove ${descendents.length} descendent${descendents.length > 1 ? 's' : ''}, are you absolutely sure?`;
+    if (descendents.length && !window.confirm(message)) return;
+    context.setConfig({ members: context.config.members.filter(membr => ![...descendents, member.id].includes(membr.id)) });
     context.setSelectedMember(member.parent || {});
   }
 
