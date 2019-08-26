@@ -66,10 +66,10 @@
 
 .addChildButton button {
   margin: 5px 0;
-  background-color: #c7d75b;
-  color: #000;
+  background-color: #81a13f;
+  color: #fff;
 }
 
 .addChildButton button:hover {
-  background-color: #ddef64;;
+  background-color: #98bd4b;
 }

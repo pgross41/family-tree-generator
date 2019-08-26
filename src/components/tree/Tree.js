@@ -14,8 +14,8 @@ const toRad = (degrees) => degrees * (Math.PI / 180)
 const Tree = (props) => {
   const context = React.useContext(Context);
   const config = context.config;
-  const family = props.familyData.family;
-  const metadata = props.familyData.metadata;
+  const rootMember = context.family.rootMember;
+  const metadata = context.family.metadata;
 
   // Traverse the family tree and apend to the DOM's tree
   let key = 0;
@@ -140,7 +140,7 @@ const Tree = (props) => {
     height: config.treeHeight
   }
 
-  const childNodes = getChildNodes(family.children);
+  const childNodes = getChildNodes(rootMember.children);
   const generationLeaves = getGenerationLeaves();
   const edgeLeaves = getEdgeLeaves()
 
@@ -148,7 +148,7 @@ const Tree = (props) => {
     <div className={styles.tree} style={treeStyle}>
       <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />
       <div className={styles.treeNodes} style={treeNodesStyle}>
-        <RootNode {...family} />
+        <RootNode {...rootMember} />
         {childNodes}
         {generationLeaves.leafNodes}
         {edgeLeaves.leafNodes}

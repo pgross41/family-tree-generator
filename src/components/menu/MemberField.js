@@ -22,8 +22,8 @@ const MemberField = React.memo((props) => {
   const name = member.name + (member.spouseName ? ' and ' : '') + member.spouseName;
   const nameClassName = `${styles.name} ${isActive || isAncestorOfSelected ? styles.highlight : ''}`;
   const updateMemberField = (key, value) => {
-    context.config.members.find(membr => membr.id === member.id)[key] = value;
-    context.setConfig({ members: context.config.members });
+    context.family.members.find(membr => membr.id === member.id)[key] = value;
+    context.setConfig({ members: context.family.members });
   }
 
   /**
@@ -43,14 +43,14 @@ const MemberField = React.memo((props) => {
     const descendents = getDescendentIds(member);
     const message = `This will also remove ${descendents.length} descendent${descendents.length > 1 ? 's' : ''}, are you absolutely sure?`;
     if (descendents.length && !window.confirm(message)) return;
-    context.setConfig({ members: context.config.members.filter(membr => ![...descendents, member.id].includes(membr.id)) });
+    context.setConfig({ members: context.family.members.filter(membr => ![...descendents, member.id].includes(membr.id)) });
     context.setSelectedMember(member.parent || {});
   }
 
   const onClickAddChild = (event) => {
-    context.config.members.find(membr => membr.id === member.id).children.push({key:"value"})
-    console.log(context.config.members);
-    context.setConfig({ members: context.config.members});
+    context.family.members.find(membr => membr.id === member.id).children.push({key:"value"})
+    console.log(context.family.members);
+    context.setConfig({ members: context.family.members});
     context.setSelectedMember(member.parent || {});
   }
 

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import Tree from './tree/Tree.js';
-import ToolsPanel from './menu/Panel.js';
-import Title from './tree/Title.js';
-import defaultConfig from './../config.js';
-import parse from '../util/parse.js';
+import Tree from './tree/Tree';
+import ToolsPanel from './menu/Panel';
+import Title from './tree/Title';
+import defaultConfig from './../config';
 import styles from './App.module.css';
 import Context from './Context';
-
+import Family from '../models/Family';
 
 
 /**
@@ -16,12 +15,12 @@ const App = () => {
   const [config, replaceConfig] = useState(defaultConfig);
   const setConfig = (partialConfig) => replaceConfig({ ...config, ...partialConfig });
   const [selectedMember, setSelectedMember] = useState({});
-  const familyData = parse(config.members || config.membersCsv);
-  const context = { config, setConfig, selectedMember, setSelectedMember }
+  const family = new Family(config.members || config.membersCsv);
+  const context = { family, config, setConfig, selectedMember, setSelectedMember }
   return (
     <div className={styles.app}>
       <Context.Provider value={context}>
-        <Tree familyData={familyData} />
+        <Tree />
         <Title />
         <ToolsPanel />
       </Context.Provider>

@@ -12,7 +12,7 @@ const ConfigFields = (props) => {
   const context = React.useContext(Context);
   const searchMembers = (event) => {
     const searchString = event.target.value.toLowerCase();
-    context.setSelectedMember(searchString && context.config.members.find((member) =>
+    context.setSelectedMember(searchString && context.family.members.find((member) =>
       member.name.toLowerCase().includes(searchString) || member.spouseName.toLowerCase().includes(searchString)
     ));
   }
@@ -36,7 +36,7 @@ const ConfigFields = (props) => {
             <MdSearch className={styles.searchIcon} />
           </div>
         </h3>
-        <MemberField member={context.config.members[0]} root={true} />
+        <MemberField member={context.family.rootMember} root={true} />
       </div>
     </div>
   );
