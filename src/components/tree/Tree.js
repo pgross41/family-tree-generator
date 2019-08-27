@@ -4,7 +4,7 @@ import LeafNode from './LeafNode.js';
 import RootNode from './RootNode.js';
 import TreePie from './TreePie.js';
 import styles from './Tree.module.css';
-import Context from './../Context';
+import { Context } from './../Context';
 
 const toRad = (degrees) => degrees * (Math.PI / 180)
 
@@ -12,10 +12,10 @@ const toRad = (degrees) => degrees * (Math.PI / 180)
  * The tree and the things in it
  */
 const Tree = (props) => {
-  const context = React.useContext(Context);
-  const config = context.config;
-  const rootMember = context.family.rootMember;
-  const metadata = context.family.metadata;
+  const { state } = React.useContext(Context);
+  const config = state.config;
+  const rootMember = state.family.rootMember;
+  const metadata = state.family.metadata;
 
   // Traverse the family tree and apend to the DOM's tree
   let key = 0;

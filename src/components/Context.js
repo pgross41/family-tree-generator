@@ -1,3 +1,37 @@
 import React from "react";
+import Family from '../models/Family';
+import defaultConfig from './../config';
 
-export default React.createContext();
+const reducer = (state, action) => {
+    const [type, value] = [...action];
+    switch (type) {
+        case "setConfig":
+            return { ...state, config: { ...state.config, ...value } };
+        case "setSelectedMember":
+            return { ...state, selectedMember: value };
+        case "updateMember":
+            state.family.updateMember(value.id, { [value.key]: value.value });
+        case "setFamily": /* eslint-disable-line no-fallthrough */
+            return { ...state, family: new Family({ ...state.family, ...value }) };
+        default:
+            return;
+    }
+};
+
+const initialState = {
+    family: new Family().load(defaultConfig.members || defaultConfig.membersCsv),
+    config: defaultConfig,
+    selectedMember: {},
+};
+
+const Context = React.createContext(initialState);
+
+const ContextProvider = (props) => {
+    const [state, dispatch] = React.useReducer(reducer, initialState);
+    return (
+        <Context.Provider value={{ state, dispatch }} >
+            {props.children}
+        </Context.Provider >
+    );
+}
+export { Context, ContextProvider };

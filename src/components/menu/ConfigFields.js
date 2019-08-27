@@ -3,18 +3,16 @@ import styles from './ConfigFields.module.css';
 import Field from './ConfigField';
 import MemberField from './MemberField';
 import { MdSearch } from "react-icons/md";
-import Context from './../Context';
+import { Context } from './../Context';
 
 /**
  * The fields in the menu
  */
 const ConfigFields = (props) => {
-  const context = React.useContext(Context);
+  const { state, dispatch } = React.useContext(Context);
   const searchMembers = (event) => {
     const searchString = event.target.value.toLowerCase();
-    context.setSelectedMember(searchString && context.family.members.find((member) =>
-      member.name.toLowerCase().includes(searchString) || member.spouseName.toLowerCase().includes(searchString)
-    ));
+    dispatch(["setSelectedMember", state.family.findByName(searchString)]);
   }
   return (
     <div className={styles.configFields}>
@@ -36,7 +34,7 @@ const ConfigFields = (props) => {
             <MdSearch className={styles.searchIcon} />
           </div>
         </h3>
-        <MemberField member={context.family.rootMember} root={true} />
+        <MemberField member={state.family.rootMember} root={true} />
       </div>
     </div>
   );

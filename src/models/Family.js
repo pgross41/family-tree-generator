@@ -10,12 +10,17 @@ const _ = require('lodash');
 
 class Family {
 
-    isCsv = undefined;
-    members = [];
-    metadata = undefined;
-    rootMember = undefined;
+    constructor(values) {
+        const defaultValues = {
+            isCsv: undefined,
+            members: [],
+            metadata: undefined,
+            rootMember: undefined,
+        }
+        Object.assign(this, { ...defaultValues, ...values });
+    }
 
-    constructor(memberDataOrmembersCsvString) {
+    load(memberDataOrmembersCsvString) {
 
         // Read data
         this.isCsv = typeof memberDataOrmembersCsvString == "string"
@@ -24,7 +29,7 @@ class Family {
                 ? Papa.parse(memberDataOrmembersCsvString, { header: true }).data
                 : memberDataOrmembersCsvString
         ).map(member => new Member(member));
-        
+
         // Create relationships
         const getChildren = (parent) => _.chain(data)
             .filter(row => this.isCsv ? parent.name === row.parentName : parent.id === row.parentId)
@@ -65,6 +70,18 @@ class Family {
             })
         };
         handleChildren(root.children);
+        return this; 
+    }
+
+    findByName(name) {
+        return name && this.members.find((member) =>
+            member.name.toLowerCase().includes(name) || member.spouseName.toLowerCase().includes(name)
+        )
+    }
+
+    updateMember(memberId, props) {
+        const member = this.members.find(member => member.id === memberId);
+        Object.assign(member, props);
     }
 }
 

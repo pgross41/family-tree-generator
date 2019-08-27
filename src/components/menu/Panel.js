@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Panel.module.css';
-import Context from './../Context';
+import { Context } from './../Context';
 import ConfigFields from './ConfigFields';
 import { MdSettings, MdZoomIn, MdZoomOut } from "react-icons/md";
 
@@ -8,11 +8,11 @@ import { MdSettings, MdZoomIn, MdZoomOut } from "react-icons/md";
  * Popout tools panel
  */
 const Panel = (props) => {
-  const context = React.useContext(Context);
+  const { state, dispatch } = React.useContext(Context);
   const [closed, setClosed] = React.useState(false); // Testing... default should be true
   const className = `${styles.panel}${closed ? ` ${styles.closed}` : ''}`
-  const zoom = context.config.zoom;
-  const increaseZoom = (amount) => context.setConfig({ zoom: zoom + amount })
+  const zoom = state.config.zoom;
+  const increaseZoom = (amount) => dispatch(["setConfig", { zoom: zoom + amount }])
   return (
     <div className={className}>
       <div className={styles.panelButtons}>

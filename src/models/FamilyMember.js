@@ -14,7 +14,7 @@ class FamilyMember {
             children: [],
         }
         Object.assign(this, { ...defaultValues, ...values });
-        this.id = ++nextId;
+        this.id = this.id || ++nextId;
     }
 }
 

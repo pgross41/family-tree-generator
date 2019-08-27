@@ -2,7 +2,7 @@ import React from 'react';
 import fieldStyles from './ConfigField.module.css';
 import styles from './MemberField.module.css';
 import { MdChevronRight, MdExpandMore } from "react-icons/md";
-import Context from './../Context';
+import { Context } from './../Context';
 import { handleNumberFieldArrowKey } from '../../util/eventHandlers';
 
 /**
@@ -13,25 +13,21 @@ const MemberField = React.memo((props) => {
   /**
    * Helper vars
    */
-  const context = React.useContext(Context);
+  const { state, dispatch } = React.useContext(Context);
   const member = props.member;
-  const selectedMember = context.selectedMember || {};
+  const selectedMember = state.selectedMember || {};
   const isAncestorOfSelected = (selectedMember.ancestors || []).includes(member.id)
   const isActive = member.id === selectedMember.id;
   const className = `${fieldStyles.configField} ${styles.memberField} ${props.root ? styles.root : ''} ${isActive ? styles.active : ''}`
   const name = member.name + (member.spouseName ? ' and ' : '') + member.spouseName;
   const nameClassName = `${styles.name} ${isActive || isAncestorOfSelected ? styles.highlight : ''}`;
-  const updateMemberField = (key, value) => {
-    context.family.members.find(membr => membr.id === member.id)[key] = value;
-    context.setConfig({ members: context.family.members });
-  }
 
   /**
    * Event handlers
    */
   const onClickExpand = (event) => {
     event.stopPropagation();
-    context.setSelectedMember(member.id === selectedMember.id ? member.parent || {} : member);
+    dispatch(["setSelectedMember", member.id === selectedMember.id ? member.parent || {} : member]);
   }
 
   const onClickRemove = (event) => {
@@ -43,19 +39,20 @@ const MemberField = React.memo((props) => {
     const descendents = getDescendentIds(member);
     const message = `This will also remove ${descendents.length} descendent${descendents.length > 1 ? 's' : ''}, are you absolutely sure?`;
     if (descendents.length && !window.confirm(message)) return;
-    context.setConfig({ members: context.family.members.filter(membr => ![...descendents, member.id].includes(membr.id)) });
-    context.setSelectedMember(member.parent || {});
+    dispatch(["setConfig", { members: state.family.members.filter(membr => ![...descendents, member.id].includes(membr.id)) }]);
+    dispatch(["setSelectedMember", member.parent || {}]);
   }
 
   const onClickAddChild = (event) => {
-    context.family.members.find(membr => membr.id === member.id).children.push({key:"value"})
-    console.log(context.family.members);
-    context.setConfig({ members: context.family.members});
-    context.setSelectedMember(member.parent || {});
+    state.family.members.find(membr => membr.id === member.id).children.push({ key: "value" })
+    console.log(state.family.members);
+    dispatch(["setConfig", { members: state.family.members }]);
+    dispatch(["setSelectedMember", member.parent || {}]);
   }
 
-  const onFieldChange = (event, memberKey, value) => updateMemberField(memberKey, value === undefined ? event.target.value : value);
-  const onFieldKeyDown = (event, memberKey) => updateMemberField(memberKey, handleNumberFieldArrowKey(event));
+  const updateMemberField = (key, value) => dispatch(["updateMember", { id: member.id, key, value }]);
+  const onFieldChange = (event, key, value) => updateMemberField(key, value === undefined ? event.target.value : value);
+  const onFieldKeyDown = (event, key) => updateMemberField(key, handleNumberFieldArrowKey(event));
 
   /**
    * Elements 
