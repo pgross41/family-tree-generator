@@ -19,7 +19,7 @@ class Family {
         const defaultprops = {
             isCsv: undefined,
             members: [],
-            memberData: [],
+            memberData: [], // TODO: Why is this getting relationship info? Want to use it for export isntad of mapping .props
             metadata: undefined,
             rootMember: undefined,
         }

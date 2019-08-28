@@ -11,14 +11,13 @@ class FamilyMember {
             parentId: undefined,
             offsetAngle: undefined,
             noBorder: undefined,
-            parent: undefined,
-            children: [],
         }
         // Don't accept anything not included in defaultProps
         const validProps = Object.keys(props)
             .filter(key => Object.keys(defaultprops).includes(key))
             .reduce((obj, key) => ({ ...obj, [key]: props[key] }), {});
         Object.assign(this, { ...defaultprops, ...validProps });
+        this.props = validProps;
         if (this.id) {
             nextId = (Math.max(nextId, this.id));
         } else {

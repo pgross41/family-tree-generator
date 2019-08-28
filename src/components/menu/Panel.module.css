@@ -27,7 +27,6 @@
   background-color: var(--backgroundColor);
   font-size: 32px;
   font-weight: bold;
-  text-align: center;
   border-radius: 10px 0 0 10px;
   padding: 1px;
 }
@@ -38,13 +37,42 @@
   border-radius: 10px;
   cursor: pointer;
   user-select: none;
+  height: calc(var(--buttonWidth) - 10px);
+  width: calc(var(--buttonWidth) - 10px);
+  padding-top: 5px;
+  text-align: center;
+}
+
+.importExportButton {
+  display: inline-block;
+  float: right; 
 }
 
 .panelButton:hover {
   opacity: 0.7;
 }
 
-.settingsButton {
-  font-size: 0.7em;
-  line-height: 2.1em;
+.content{
+  margin-right: 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.contentScroll {
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  right: -10px;
+  padding-right: 10px;
+}
+
+.configFieldsWrapper {
+  position: relative; 
+  height: 100%;
+  margin-right: -20px;
 }
