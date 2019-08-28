@@ -40,7 +40,11 @@ const MemberField = React.memo((props) => {
     dispatch(["setSelectedMember", member.parent || {}]);
   }
 
-  const onClickAddChild = (event) => dispatch(["addMember", { parentId: member.id }]);
+  const onClickAddChild = (event) => {
+    dispatch(["addMember", { parentId: member.id }]);
+    // Sloppy but effective 
+    setTimeout(() => dispatch(["setSelectedMember", state.family.getNewest()]));
+  }
   const onFieldChange = (event, key, value) => updateMember({ [key]: value === undefined ? event.target.value : value })
   const onFieldKeyDown = (event, key) => updateMember({ [key]: handleNumberFieldArrowKey(event) });
 
@@ -93,14 +97,18 @@ const MemberField = React.memo((props) => {
         </div>
       </>}
       <div>
-        <div>Children</div>
+        <div>
+          <div className={styles.childrenLabel}>
+            Children
+          </div>
+          <div className={styles.addChildButton}>
+            <button onClick={onClickAddChild}>Add Child</button>
+          </div>
+        </div>
         <div>
           {props.member.children.map(member => (
             <MemberField member={member} key={member.id} />
           ))}
-        </div>
-        <div className={styles.addChildButton}>
-          <button onClick={onClickAddChild}>Add Child</button>
         </div>
       </div>
     </>

@@ -5,6 +5,10 @@
   border-right: 1px solid transparent;
 }
 
+.memberField button { 
+  width: 100px;
+}
+
 .active{
   background-color: #777;
 }
@@ -60,8 +64,15 @@
   background-color: #e01313;
 }
 
+.childrenLabel {
+  display: inline-block;
+  padding-top: 20px;
+}
+
 .addChildButton {
-  text-align: right; 
+  float: right; 
+  clear: right; 
+  padding-top: 10px;
 }
 
 .addChildButton button {

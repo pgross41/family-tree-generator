@@ -85,6 +85,11 @@ class Family {
         return this.members.find((member) => member.id === id)
     }
 
+    getNewest() {
+        const maxMemberId = this.members.reduce((max, member) => Math.max(max, member.id), Number.NEGATIVE_INFINITY);
+        return this.get(maxMemberId);
+    }
+
     findByName(name) {
         return name && this.members.find((member) =>
             member.name.toLowerCase().includes(name) || member.spouseName.toLowerCase().includes(name)
