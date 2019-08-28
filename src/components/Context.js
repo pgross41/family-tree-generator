@@ -10,9 +10,11 @@ const reducer = (state, action) => {
         case "setSelectedMember":
             return { ...state, selectedMember: value };
         case "updateMember":
-            state.family.updateMember(value.id, { [value.key]: value.value });
-        case "setFamily": /* eslint-disable-line no-fallthrough */
-            return { ...state, family: new Family({ ...state.family, ...value }) };
+            return { ...state, family: state.family.updateMember(value.id, value.props) };
+        case "addMember":
+            return { ...state, family: state.family.addMember(value) };
+        case "removeMember":
+            return { ...state, family: state.family.removeMember(value) };
         default:
             return;
     }

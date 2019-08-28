@@ -21,6 +21,7 @@ const MemberField = React.memo((props) => {
   const className = `${fieldStyles.configField} ${styles.memberField} ${props.root ? styles.root : ''} ${isActive ? styles.active : ''}`
   const name = member.name + (member.spouseName ? ' and ' : '') + member.spouseName;
   const nameClassName = `${styles.name} ${isActive || isAncestorOfSelected ? styles.highlight : ''}`;
+  const updateMember = (props) => dispatch(["updateMember", { id: member.id, props }]);
 
   /**
    * Event handlers
@@ -32,27 +33,16 @@ const MemberField = React.memo((props) => {
 
   const onClickRemove = (event) => {
     if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
-    const getDescendentIds = (member) => [
-      ...member.children.map(child => child.id),
-      ...member.children.map(child => getDescendentIds(child))
-    ].flat();
-    const descendents = getDescendentIds(member);
+    const descendents = member.getDescendentIds();
     const message = `This will also remove ${descendents.length} descendent${descendents.length > 1 ? 's' : ''}, are you absolutely sure?`;
     if (descendents.length && !window.confirm(message)) return;
-    dispatch(["setConfig", { members: state.family.members.filter(membr => ![...descendents, member.id].includes(membr.id)) }]);
+    dispatch(["removeMember", member.id]);
     dispatch(["setSelectedMember", member.parent || {}]);
   }
 
-  const onClickAddChild = (event) => {
-    state.family.members.find(membr => membr.id === member.id).children.push({ key: "value" })
-    console.log(state.family.members);
-    dispatch(["setConfig", { members: state.family.members }]);
-    dispatch(["setSelectedMember", member.parent || {}]);
-  }
-
-  const updateMemberField = (key, value) => dispatch(["updateMember", { id: member.id, key, value }]);
-  const onFieldChange = (event, key, value) => updateMemberField(key, value === undefined ? event.target.value : value);
-  const onFieldKeyDown = (event, key) => updateMemberField(key, handleNumberFieldArrowKey(event));
+  const onClickAddChild = (event) => dispatch(["addMember", { parentId: member.id }]);
+  const onFieldChange = (event, key, value) => updateMember({ [key]: value === undefined ? event.target.value : value })
+  const onFieldKeyDown = (event, key) => updateMember({ [key]: handleNumberFieldArrowKey(event) });
 
   /**
    * Elements 

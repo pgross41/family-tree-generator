@@ -8,27 +8,35 @@ import Papa from 'papaparse';
 import Member from './FamilyMember';
 const _ = require('lodash');
 
+/**
+ * Represents a collection of families. 
+ * All changes should be made to memberData then passed to load. This will create 
+ * a new members array which has additional relationships and calculated fields. 
+ */
 class Family {
 
-    constructor(values) {
-        const defaultValues = {
+    constructor(props) {
+        const defaultprops = {
             isCsv: undefined,
             members: [],
+            memberData: [],
             metadata: undefined,
             rootMember: undefined,
         }
-        Object.assign(this, { ...defaultValues, ...values });
+        Object.assign(this, { ...defaultprops, ...props });
     }
 
     load(memberDataOrmembersCsvString) {
 
         // Read data
+        this.members = [];
         this.isCsv = typeof memberDataOrmembersCsvString == "string"
         const data = (
             this.isCsv
                 ? Papa.parse(memberDataOrmembersCsvString, { header: true }).data
                 : memberDataOrmembersCsvString
         ).map(member => new Member(member));
+        this.memberData = [...data];
 
         // Create relationships
         const getChildren = (parent) => _.chain(data)
@@ -70,7 +78,11 @@ class Family {
             })
         };
         handleChildren(root.children);
-        return this; 
+        return this;
+    }
+
+    get(id) {
+        return this.members.find((member) => member.id === id)
     }
 
     findByName(name) {
@@ -79,9 +91,27 @@ class Family {
         )
     }
 
-    updateMember(memberId, props) {
-        const member = this.members.find(member => member.id === memberId);
-        Object.assign(member, props);
+    addChild(parentId, props) {
+        if (this.get(parentId)) {
+            this.load([...this.memberData, { ...props, parentId: parentId, name: "New Member" }]);
+            // return this.get(parentId).children;
+        }
+    }
+
+    addMember(memberData) {
+        return this.load([...this.memberData, { name: "New Member", ...memberData }]);
+    }
+
+    removeMember(memberId) {
+        const member = this.get(memberId);
+        const memberAndDescendants = [memberId, ...member.getDescendentIds()]
+        return this.load(this.memberData.filter(member => !memberAndDescendants.includes(member.id)));
+    }
+
+    updateMember(memberId, memberData) {
+        const member = this.memberData.find(member => member.id === memberId);
+        Object.assign(member, memberData);
+        return this.load(this.memberData);
     }
 }
 
