@@ -42,14 +42,28 @@
 
 .name{
   cursor: pointer;
+  display: inline-block;
+  width: calc(100% - 80px);
 }
 
-.toggleExpandButton{
+.name:hover{
+  cursor: pointer;
+  color: #f5ffaf;
+}
+
+.reorderButton{
   float: right;
   font-size: 26px;
   width: 40px;
+  display: inline-block;
+  text-align: center;
+  height: 28px;
 }
 
+.reorderButton:hover{
+  cursor: pointer;
+  color: #d5e65c;
+}
 
 .removeButton{
   float: right;
@@ -72,7 +86,7 @@
 .addChildButton {
   float: right; 
   clear: right; 
-  padding-top: 10px;
+  padding-top: 5px;
 }
 
 .addChildButton button {
@@ -83,4 +97,9 @@
 
 .addChildButton button:hover {
   background-color: #98bd4b;
+}
+
+.dithered { 
+  color: #aaa;
+  cursor: initial;
 }

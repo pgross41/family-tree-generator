@@ -58,7 +58,7 @@ class Family {
         // Calculate metadata, nodeIDs, and remove the temp _included field
         let nodeId = 0;
         this.metadata = { depthCounts: [1], depthMinThetas: [undefined] }
-        const prevSiblings = []; // This does not require same parent 
+        const prevSiblings = []; // These are generational siblings, it does not require same parent 
         const handleChildren = (children, depth = 0, ancestors = [1]) => {
             depth++;
             let childId = 0;
@@ -71,8 +71,10 @@ class Family {
                 child.maxChildId = children.length;
                 child.depth = depth;
                 child.nodeId = this.isCsv ? ++nodeId : child.id;
+                child.siblings = children.filter(sibling => sibling.id !== child.id);
                 child.prevSibling = prevSiblings[depth];
                 child.ancestors = ancestors;
+                (prevSiblings[depth] || {}).nextSibling = child;
                 prevSiblings[depth] = child;
                 handleChildren(child.children, depth, [...ancestors, child.nodeId]);
             })
@@ -116,6 +118,16 @@ class Family {
     updateMember(memberId, memberData) {
         const member = this.memberData.find(member => member.id === memberId);
         Object.assign(member, memberData);
+        return this.load(this.memberData);
+    }
+
+    moveMember(memberId, positionOffset) {
+        const fromMember = this.get(memberId);
+        const fromPosition = this.memberData.findIndex(member => member.id === memberId);
+        const toMember = fromMember.siblings.find(member => member.childId === fromMember.childId + positionOffset);
+        if(!toMember) return this;
+        const toPosition = this.memberData.findIndex(member => member.id === toMember.id);
+        this.memberData.splice(toPosition, 0, this.memberData.splice(fromPosition, 1)[0]);
         return this.load(this.memberData);
     }
 }

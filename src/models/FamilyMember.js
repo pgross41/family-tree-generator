@@ -2,6 +2,7 @@ let nextId = 0;
 class FamilyMember {
     constructor(props) {
         const defaultprops = {
+            id: undefined, // This will always be set below 
             name: "",
             born: "",
             died: "",
@@ -13,7 +14,11 @@ class FamilyMember {
             parent: undefined,
             children: [],
         }
-        Object.assign(this, { ...defaultprops, ...props });
+        // Don't accept anything not included in defaultProps
+        const validProps = Object.keys(props)
+            .filter(key => Object.keys(defaultprops).includes(key))
+            .reduce((obj, key) => ({ ...obj, [key]: props[key] }), {});
+        Object.assign(this, { ...defaultprops, ...validProps });
         if (this.id) {
             nextId = (Math.max(nextId, this.id));
         } else {
@@ -26,6 +31,14 @@ class FamilyMember {
             ...member.children.map(child => child.id),
             ...member.children.map(child => this.getDescendentIds(child))
         ].flat();
+    }
+
+    isFirst() {
+        return this.childId === 1;
+    }
+
+    isLast() {
+        return this.childId === this.maxChildId;
     }
 
 }

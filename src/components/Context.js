@@ -15,6 +15,8 @@ const reducer = (state, action) => {
             return { ...state, family: state.family.addMember(value) };
         case "removeMember":
             return { ...state, family: state.family.removeMember(value) };
+        case "moveMember":
+            return { ...state, family: state.family.moveMember(value.id, value.positionOffset) };
         default:
             return;
     }

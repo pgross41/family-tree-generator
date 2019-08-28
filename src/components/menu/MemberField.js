@@ -1,7 +1,7 @@
 import React from 'react';
 import fieldStyles from './ConfigField.module.css';
 import styles from './MemberField.module.css';
-import { MdChevronRight, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import { Context } from './../Context';
 import { handleNumberFieldArrowKey } from '../../util/eventHandlers';
 
@@ -29,6 +29,11 @@ const MemberField = React.memo((props) => {
   const onClickExpand = (event) => {
     event.stopPropagation();
     dispatch(["setSelectedMember", member.id === selectedMember.id ? member.parent || {} : member]);
+  }
+
+  const onClickReorder = (event, positionOffset) => {
+    event.stopPropagation();
+    dispatch(["moveMember", { id: member.id, positionOffset: positionOffset }]);
   }
 
   const onClickRemove = (event) => {
@@ -109,17 +114,24 @@ const MemberField = React.memo((props) => {
           {props.member.children.map(member => (
             <MemberField member={member} key={member.id} />
           ))}
+          {!props.member.children.length && <div className={styles.dithered}>No children</div>}
         </div>
       </div>
     </>
   )
 
-  const ToggleExpandButton = isActive ? MdExpandMore : MdChevronRight;
-
   return (
     <div className={className}>
-      <div onClick={onClickExpand} className={nameClassName}>
-        {name}<ToggleExpandButton className={styles.toggleExpandButton} />
+      <div onClick={onClickExpand}>
+        <div className={nameClassName}>{name}</div>
+        {!props.root && isActive && <>
+          <div onClick={(event) => onClickReorder(event, 1)} className={styles.reorderButton} title="Move Down" >
+            <MdExpandMore className={member.isLast() ? styles.dithered : undefined} />
+          </div>
+          <div onClick={(event) => onClickReorder(event, -1)} className={styles.reorderButton} title="Move Up">
+            <MdExpandLess className={member.isFirst() ? styles.dithered : undefined} />
+          </div>
+        </>}
       </div>
       {isActive ? expanded : collapsed}
     </div >
