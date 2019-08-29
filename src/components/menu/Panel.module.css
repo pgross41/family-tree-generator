@@ -33,19 +33,12 @@
 
 .panelButton {
   margin: 5px;
-  background-color: #555;
-  border-radius: 10px;
   cursor: pointer;
   user-select: none;
   height: calc(var(--buttonWidth) - 10px);
   width: calc(var(--buttonWidth) - 10px);
   padding-top: 5px;
   text-align: center;
-}
-
-.importExportButton {
-  display: inline-block;
-  float: right; 
 }
 
 .panelButton:hover {

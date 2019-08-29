@@ -7,6 +7,9 @@ const reducer = (state, action) => {
     switch (type) {
         case "setConfig":
             return { ...state, config: { ...state.config, ...value } };
+        case "importSettings":
+            const family = state.family.load(value.members);
+            return { ...state, config: value, family: family };
         case "setSelectedMember":
             return { ...state, selectedMember: value };
         case "updateMember":

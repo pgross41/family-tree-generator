@@ -21,3 +21,14 @@ button {
   cursor: pointer;
   border-radius: 5px;
 }
+
+button:hover {
+  background-color: #eee;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+  height: 500px;
+  margin-top: 10px;
+}

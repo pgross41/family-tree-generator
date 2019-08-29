@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ConfigField.module.css';
 import { Context } from './../Context';
-import { handleNumberFieldArrowKey } from '../../util/eventHandlers';
+import { handleNumberFieldArrowKey } from '../../util/helpers';
 
 /**
  * Single field in the config panel

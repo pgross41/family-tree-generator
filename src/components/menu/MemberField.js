@@ -3,7 +3,7 @@ import fieldStyles from './ConfigField.module.css';
 import styles from './MemberField.module.css';
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import { Context } from './../Context';
-import { handleNumberFieldArrowKey } from '../../util/eventHandlers';
+import { handleNumberFieldArrowKey } from '../../util/helpers';
 
 /**
  * Represents a family member (plus their children)

@@ -1,7 +1,7 @@
 /**
  * Returns the new value 
  */
-const handleNumberFieldArrowKey = (event) => {
+export const handleNumberFieldArrowKey = (event) => {
     if (!['ArrowUp', 'ArrowDown'].includes(event.key)) return event.target.value;
     event.preventDefault();
     const valueParts = event.target.value.match(/(.*?)(-?[.\d]+)(.*)/);
@@ -12,4 +12,12 @@ const handleNumberFieldArrowKey = (event) => {
     return `${valueParts[1]}${Math.round(newNumber * 10) / 10}${valueParts[3]}`;
 }
 
-export { handleNumberFieldArrowKey }
+/**
+ * Creates an object using an array of strings as both the key and value
+ */
+export const makeEnum = (...strings) => {
+    return strings.reduce((obj, string) => ({ ...obj, [string]: string }), {});
+}
+
+export const toTitleCase = (string) =>
+    string.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ');
