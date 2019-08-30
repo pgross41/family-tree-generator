@@ -8,7 +8,7 @@ const reducer = (state, action) => {
         case "setConfig":
             return { ...state, config: { ...state.config, ...value } };
         case "importSettings":
-            const family = state.family.load(value.members);
+            const family = state.family.import(value.members);
             return { ...state, config: value, family: family };
         case "setSelectedMember":
             return { ...state, selectedMember: value };

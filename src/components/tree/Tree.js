@@ -146,7 +146,7 @@ const Tree = (props) => {
 
   return (
     <div className={styles.tree} style={treeStyle}>
-      <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />
+      {metadata.depthCounts > 1 && <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />}
       <div className={styles.treeNodes} style={treeNodesStyle}>
         <RootNode {...rootMember} />
         {childNodes}

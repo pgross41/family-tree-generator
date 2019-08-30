@@ -6,7 +6,7 @@
 
 import Papa from 'papaparse';
 import Member from './FamilyMember';
-const _ = require('lodash');
+import MemberData from './MemberData';
 
 /**
  * Represents a collection of families. 
@@ -17,7 +17,6 @@ class Family {
 
     constructor(props) {
         const defaultprops = {
-            isCsv: undefined,
             members: [],
             memberData: [], // TODO: Why is this getting relationship info? Want to use it for export isntad of mapping .props
             metadata: undefined,
@@ -26,34 +25,63 @@ class Family {
         Object.assign(this, { ...defaultprops, ...props });
     }
 
-    load(memberDataOrmembersCsvString) {
+    /**
+     * Wrapper for load with very lenient input
+     * - If it looks like a member array, call this.load
+     * - If it looks like a CSV, parse it and call this.load
+     * - Otherwise create only a root
+     */
+    import(input) {
+        if (Array.isArray(input)) {
+            return this.load(input);
+        } else if (typeof input === "string") {
+            return this.load(this.parseCsv(input));
+        } else {
+            return this.load([{}]);
+        }
+    }
 
-        // Read data
+    parseCsv(csvString) {
+        const data = Papa.parse(csvString, { header: true }).data;
+        // todo: convert parentName to parentId
+        return data;
+
+    }
+
+    /**
+     * Populate members with memberData array 
+     */
+    load(memberData) {
+
+        // Hold a copy of the original data
+        this.memberData = [...memberData].map(data => new MemberData(data));
+
+        // FamilyMember objects
         this.members = [];
-        this.isCsv = typeof memberDataOrmembersCsvString == "string"
-        const data = (
-            this.isCsv
-                ? Papa.parse(memberDataOrmembersCsvString, { header: true }).data
-                : memberDataOrmembersCsvString
-        ).map(member => new Member(member));
-        this.memberData = [...data];
 
         // Create relationships
-        const getChildren = (parent) => _.chain(data)
-            .filter(row => this.isCsv ? parent.name === row.parentName : parent.id === row.parentId)
-            .map(child => _.extend(child, { parent: parent, children: getChildren(child) }))
-            .each(row => row._included = true)
-            .each(row => this.members.push(row))
-            .value()
-        const root = _.find(data, row => _.isEmpty(this.isCsv ? row.parentName : row.parentId));
-        this.rootMember = _.extend(root, { children: getChildren(root), depth: 0 });
-        this.members.unshift(this.rootMember);
+        const getChildren = (parent) => this.memberData
+            .filter(row => parent.id && parent.id === row.parentId)
+            .map(child => {
+                const member = new Member(child);
+                member.parent = parent;
+                member.children = getChildren(member);
+                member._included = true;
+                this.members.push(member);
+                return member;
+            })
+        const rootData = this.memberData.filter(row => !row.parentId);
+        if (!rootData.length) throw Error("No roots found (members with no parent)");
+        if (rootData.length > 1) throw Error("Multiple roots found (members with no parent)");
+        this.rootMember = new Member(rootData[0]);
+        this.rootMember.children = getChildren(this.rootMember)
+        this.rootMember.depth = 0;
+        this.members.push(this.rootMember);
 
-        // Check for orphans, likely due to misspelled name or parentName
-        _.chain(data)
+        // Check for orphans, likely due to misspelled name or parentName in CSV
+        this.members
             .filter(row => row !== this.rootMember & !row._included)
-            .each(badRow => console.error(`${badRow.name} is not included! parent: ${this.isCsv ? badRow.parentName : badRow.parentId}`))
-            .value();
+            .forEach(badRow => console.error(`${badRow.name} is not included! parent: ${badRow.parentId}`))
 
         // Calculate metadata, nodeIDs, and remove the temp _included field
         let nodeId = 0;
@@ -62,7 +90,7 @@ class Family {
         const handleChildren = (children, depth = 0, ancestors = [1]) => {
             depth++;
             let childId = 0;
-            _.each(children, (child) => {
+            children.forEach(child => {
                 delete child._included;
                 const generationId = this.metadata.depthCounts[depth] + 1 || 1;
                 this.metadata.depthCounts[depth] = generationId;
@@ -74,12 +102,13 @@ class Family {
                 child.siblings = children.filter(sibling => sibling.id !== child.id);
                 child.prevSibling = prevSiblings[depth];
                 child.ancestors = ancestors;
+                child.nextSibling = undefined;
                 (prevSiblings[depth] || {}).nextSibling = child;
                 prevSiblings[depth] = child;
                 handleChildren(child.children, depth, [...ancestors, child.nodeId]);
             })
         };
-        handleChildren(root.children);
+        handleChildren(this.rootMember.children);
         return this;
     }
 
@@ -125,7 +154,7 @@ class Family {
         const fromMember = this.get(memberId);
         const fromPosition = this.memberData.findIndex(member => member.id === memberId);
         const toMember = fromMember.siblings.find(member => member.childId === fromMember.childId + positionOffset);
-        if(!toMember) return this;
+        if (!toMember) return this;
         const toPosition = this.memberData.findIndex(member => member.id === toMember.id);
         this.memberData.splice(toPosition, 0, this.memberData.splice(fromPosition, 1)[0]);
         return this.load(this.memberData);
