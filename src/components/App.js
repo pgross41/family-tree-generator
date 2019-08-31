@@ -1,7 +1,8 @@
 import React from 'react';
+import TreeCanvas from './TreeCanvas';
 import Tree from './tree/Tree';
-import ToolsPanel from './menu/Panel';
 import Title from './tree/Title';
+import ToolsPanel from './menu/Panel';
 import styles from './App.module.css';
 import { ContextProvider } from './Context';
 
@@ -20,12 +21,15 @@ import { ContextProvider } from './Context';
  * Wrapper component for full application
  */
 const App = () => {
+  const [menuOpen, setMenuOpen] = React.useState(true); // Testing... default should be false
   return (
     <div className={styles.app}>
       <ContextProvider>
-        <Tree />
-        <Title />
-        <ToolsPanel />
+        <TreeCanvas menuOpen={menuOpen}>
+          <Tree />
+          <Title />
+        </TreeCanvas>
+        <ToolsPanel menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       </ContextProvider>
     </div >
   );

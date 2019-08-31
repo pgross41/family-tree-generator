@@ -2,12 +2,11 @@
  * Holds the config data needed to create a FamilyMember
  */
 
-let nextId = 0;
 class MemberData {
     constructor(props = {}) {
         const defaultprops = {
             id: undefined, // This will always be set below 
-            name: "",
+            name: "New Member",
             born: "",
             died: "",
             spouseName: "",
@@ -22,11 +21,13 @@ class MemberData {
             .reduce((obj, key) => ({ ...obj, [key]: props[key] }), {});
         Object.assign(this, { ...defaultprops, ...validProps });
         if (this.id) {
-            nextId = (Math.max(nextId, this.id));
+            MemberData.nextId = (Math.max(MemberData.nextId, this.id));
         } else {
-            this.id = ++nextId;
+            this.id = ++MemberData.nextId;
         }
     }
 }
+
+MemberData.nextId = 0;
 
 export default MemberData;

@@ -54,6 +54,7 @@ class Family {
     load(memberData) {
 
         // Hold a copy of the original data
+        MemberData.nextId = 0;
         this.memberData = [...memberData].map(data => new MemberData(data));
 
         // FamilyMember objects
@@ -135,7 +136,7 @@ class Family {
     }
 
     addMember(memberData) {
-        return this.load([...this.memberData, { name: "New Member", ...memberData }]);
+        return this.load([...this.memberData, memberData]);
     }
 
     removeMember(memberId) {

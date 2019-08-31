@@ -11,8 +11,8 @@
   bottom: 0;
   right: 0px;
   width: var(--panelWidth);
-  transition: margin 0.2s;
   color: #fff;
+  transition: margin var(--animationDuration);
 }
 
 .panel.closed { 

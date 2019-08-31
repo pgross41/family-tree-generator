@@ -7,7 +7,7 @@ import ImportView from './ImportView';
 import ViewButton from './ViewButton';
 import { makeEnum, toTitleCase } from './../../util/helpers';
 import {
-  MdSettings, MdFileDownload, MdFileUpload, MdZoomIn, MdZoomOut, MdMenu
+  MdSettings, MdFileDownload, MdFileUpload, MdZoomIn, MdZoomOut, MdMenu, MdChevronRight
 } from "react-icons/md";
 
 const views = makeEnum('SETTINGS', 'IMPORT', 'EXPORT');
@@ -17,17 +17,16 @@ const views = makeEnum('SETTINGS', 'IMPORT', 'EXPORT');
  */
 const Panel = (props) => {
   const { state, dispatch } = React.useContext(Context);
-  const [closed, setClosed] = React.useState(false); // Testing... default should be true
+  const menuOpen = props.menuOpen;
   const [view, setView] = React.useState(views.SETTINGS); // Testing... default should be SETTINGS
-  const className = `${styles.panel}${closed ? ` ${styles.closed}` : ''}`
+  const className = `${styles.panel}${menuOpen ? '' : ` ${styles.closed}`}`
   const zoom = state.config.zoom;
   const increaseZoom = (amount) => dispatch(["setConfig", { zoom: zoom + amount }])
   return (
     <div className={className}>
       <div className={styles.panelButtons}>
-        <div className={styles.panelButton} onClick={() => setClosed(!closed)} title="Menu">
-          {/* <MdChevronLeft /> */}
-          <MdMenu />
+        <div className={styles.panelButton} onClick={() => props.setMenuOpen(!menuOpen)} title={menuOpen ? "Open Menu" : "Close Menu"}>
+          {menuOpen ? <MdChevronRight /> : <MdMenu />}
         </div>
         <div className={styles.panelButton} onClick={() => increaseZoom(+0.1)} title="Zoom In">
           <MdZoomIn />

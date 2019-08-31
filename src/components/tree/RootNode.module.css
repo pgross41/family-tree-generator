@@ -1,18 +1,21 @@
 .rootNode {
   position: absolute;
   left: 50%;
-  bottom: -420px;
-  --width: 375px;
+  bottom: -330px;
+  --width: 600px;
   width: var(--width);
   margin-left: calc(var(--width) / -2);
   font-size: 2em;
 }
 
 .rootNode .member {
-  float: left;
-  text-align: right;
+  text-align: right; 
+  position: absolute;
+  right: calc(var(--width) / 2 + 50px);
 }
 
 .rootNode .spouse {
-  float: right;
+  text-align: left;
+  position: absolute;
+  left: calc(var(--width) / 2 + 50px);
 }

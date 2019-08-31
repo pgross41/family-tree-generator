@@ -41,7 +41,7 @@ const Tree = (props) => {
     const depth = child.depth;
     const maxDepth = metadata.depthCounts.length;
     const r = (100 / maxDepth) * child.depth;
-    const singleNodeTheta = maxTheta / (metadata.depthCounts[depth] - 1);
+    const singleNodeTheta = maxTheta / Math.max(1, (metadata.depthCounts[depth] - 1));
     const childId = child.childId;
     const thetaStart = parentCalc ? parentCalc.theta : Math.PI + (Math.PI - maxTheta) / 2;
     const prevSiblingTheta = (child.prevSibling && child.prevSibling.calculations.theta) || 0;
@@ -127,7 +127,6 @@ const Tree = (props) => {
   const treeStyle = {
     width: config.treeWidth,
     height: `calc(${config.treeHeight} + 460px)`,
-    zoom: config.zoom
   }
 
   const treePieStyle = {
