@@ -2,11 +2,12 @@ import React from 'react';
 import styles from './ImportView.module.css';
 import { Context } from './../Context';
 
+const date = new Date();
 const blankConfig = {
   "debugMode": false,
   "zoom": 1,
   "title": "My Family",
-  "subTitle": "January, 2000",
+  "subTitle": `${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`,
   "treeWidth": "2000px",
   "treeHeight": "1000px",
   "treeAngle": 180,
@@ -32,7 +33,7 @@ const ImportView = (props) => {
       setError(error.toString());
     }
   }
-  const setBlank = () => importSettings('{}');
+  const setBlank = () => window.confirm("This will erase all your settings, are you sure?") && importSettings('{}');
   const onChange = (event) => importSettings(event.target.value);
   return (
     <div className={styles.exportView}>
