@@ -18,7 +18,7 @@ class Family {
     constructor(props) {
         const defaultprops = {
             members: [],
-            memberData: [], // TODO: Why is this getting relationship info? Want to use it for export isntad of mapping .props
+            memberData: [], 
             metadata: undefined,
             rootMember: undefined,
         }

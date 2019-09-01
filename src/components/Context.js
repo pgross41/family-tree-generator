@@ -1,6 +1,6 @@
 import React from "react";
 import Family from '../models/Family';
-import defaultConfig from './../config';
+import defaultConfig from './../config/config';
 
 const reducer = (state, action) => {
     const [type, value] = [...action];
@@ -26,7 +26,7 @@ const reducer = (state, action) => {
 };
 
 const initialState = {
-    family: new Family().load(defaultConfig.members || defaultConfig.membersCsv),
+    family: new Family().import(defaultConfig.members),
     config: defaultConfig,
     selectedMember: {},
 };

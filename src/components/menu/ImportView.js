@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ImportView.module.css';
-import blankConfig from '../../config.js';
+import blankConfig from '../../config/blank';
 import { Context } from './../Context';
 
 /**
