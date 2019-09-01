@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/family-tree-generator/static/css/main.f0ea6c7f.chunk.css",
+    "main.js": "/family-tree-generator/static/js/main.5ac08cd2.chunk.js",
+    "main.js.map": "/family-tree-generator/static/js/main.5ac08cd2.chunk.js.map",
+    "runtime~main.js": "/family-tree-generator/static/js/runtime~main.ebbfbae8.js",
+    "runtime~main.js.map": "/family-tree-generator/static/js/runtime~main.ebbfbae8.js.map",
+    "static/js/2.c0a65ff0.chunk.js": "/family-tree-generator/static/js/2.c0a65ff0.chunk.js",
+    "static/js/2.c0a65ff0.chunk.js.map": "/family-tree-generator/static/js/2.c0a65ff0.chunk.js.map",
+    "index.html": "/family-tree-generator/index.html",
+    "precache-manifest.400349a082eb929c0c0ed3dd0aaeb198.js": "/family-tree-generator/precache-manifest.400349a082eb929c0c0ed3dd0aaeb198.js",
+    "service-worker.js": "/family-tree-generator/service-worker.js",
+    "static/css/main.f0ea6c7f.chunk.css.map": "/family-tree-generator/static/css/main.f0ea6c7f.chunk.css.map",
+    "static/media/longLeaves1.svg": "/family-tree-generator/static/media/longLeaves1.4fd1dca2.svg",
+    "static/media/longLeaves2.svg": "/family-tree-generator/static/media/longLeaves2.08958bfe.svg",
+    "static/media/longLeaves3.svg": "/family-tree-generator/static/media/longLeaves3.08c2ab5f.svg",
+    "static/media/shortLeaves1.svg": "/family-tree-generator/static/media/shortLeaves1.4565e04a.svg",
+    "static/media/shortLeaves2.svg": "/family-tree-generator/static/media/shortLeaves2.0daeb783.svg",
+    "static/media/shortLeaves3.svg": "/family-tree-generator/static/media/shortLeaves3.9a8ca7e6.svg",
+    "static/media/shortLeaves4.svg": "/family-tree-generator/static/media/shortLeaves4.f9655af9.svg",
+    "static/media/squareLeaf2.svg": "/family-tree-generator/static/media/squareLeaf2.9ca5396f.svg",
+    "static/media/Tree.module.css": "/family-tree-generator/static/media/tree2.dd6755e0.svg"
+  }
+}
