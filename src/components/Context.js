@@ -1,6 +1,6 @@
 import React from "react";
 import Family from '../models/Family';
-import defaultConfig from './../config/config';
+import defaultConfig from './../config/gross';
 
 const reducer = (state, action) => {
     const [type, value] = [...action];

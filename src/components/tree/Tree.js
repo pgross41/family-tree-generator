@@ -145,10 +145,10 @@ const Tree = (props) => {
   const childNodes = getChildNodes(rootMember.children);
   const generationLeaves = getGenerationLeaves();
   const edgeLeaves = getEdgeLeaves()
-
+  
   return (
     <div className={styles.tree} style={treeStyle}>
-      {metadata.depthCounts > 1 && <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />}
+      {metadata.depthCounts.length > 1 && <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />}
       <div className={styles.treeNodes} style={treeNodesStyle}>
         <RootNode {...rootMember} />
         {childNodes}
