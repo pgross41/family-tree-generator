@@ -7,7 +7,7 @@ const TreeCanvas = (props) => {
   const style = { marginRight: props.menuOpen ? undefined : 0 }
   const zoomStyle = { zoom: state.config.zoom };
   return (
-    <div className={styles.treeCanvas} style={style}>
+    <div  id="treeCanvas" className={styles.treeCanvas} style={style}>
       <div style={zoomStyle}>
         {props.children}
       </div>

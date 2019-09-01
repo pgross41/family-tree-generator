@@ -23,9 +23,9 @@ const ConfigFields = (props) => {
       <Field label="Width" configKey="treeWidth" />
       <Field label="Height" configKey="treeHeight" />
       <Field label="Tree Angle" configKey="treeAngle" />
+      <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
       <Field label="Min Sibling Angle" configKey="minAngleBetweenSibs" />
       <Field label="Child Offset Factor" configKey="childOffsetFactor" />
-      <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
       <h3>
         Family Members
           <div className={styles.search} >

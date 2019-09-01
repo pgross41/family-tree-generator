@@ -8,6 +8,7 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
+// - Treepie is gone :( 
 // - Support importing CSV 
 // - Ability to rotate 90deg by generation  
 // - Revert button on import page? or maybe a history

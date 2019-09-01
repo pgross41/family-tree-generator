@@ -124,19 +124,22 @@ const Tree = (props) => {
   }
 
 
+  const treeWidth = `${config.treeWidth}px`;
+  const treeHeight = `${config.treeHeight}px`;
+
   const treeStyle = {
-    width: config.treeWidth,
-    height: `calc(${config.treeHeight} + 460px)`,
+    width: treeWidth,
+    height: `calc(${treeHeight} + 460px)`,
   }
 
   const treePieStyle = {
-    width: config.treeWidth,
-    height: `calc(${config.treeHeight} * 2)`
+    width: treeWidth,
+    height: `calc(${treeHeight} * 2)`
   }
 
   const treeNodesStyle = {
-    width: config.treeWidth,
-    height: config.treeHeight
+    width: treeWidth,
+    height: treeHeight
   }
 
   const childNodes = getChildNodes(rootMember.children);

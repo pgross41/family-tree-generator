@@ -33,13 +33,14 @@ const ImportView = (props) => {
       setError(error.toString());
     }
   }
-  const setBlank = () => window.confirm("This will erase all your settings, are you sure?") && importSettings('{}');
+  const setBlank = () => importSettings('{}');
   const onChange = (event) => importSettings(event.target.value);
   return (
     <div className={styles.exportView}>
       <button onClick={setBlank} >
         Use blank
       </button >
+      <p>Caution: Any changes made here will completely erase current settings</p>
       <textarea
         onChange={onChange}
         onInput={onChange}
