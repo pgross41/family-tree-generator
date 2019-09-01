@@ -1,21 +1,7 @@
 import React from 'react';
 import styles from './ImportView.module.css';
+import blankConfig from '../../config.js';
 import { Context } from './../Context';
-
-const date = new Date();
-const blankConfig = {
-  "debugMode": false,
-  "zoom": 1,
-  "title": "My Family",
-  "subTitle": `${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`,
-  "treeWidth": "2000px",
-  "treeHeight": "1000px",
-  "treeAngle": 180,
-  "minAngleBetweenSibs": 5,
-  "childOffsetFactor": 1.0,
-  "edgeLeafOffsetAngle": 0,
-  "members": [{}]
-}
 
 /**
  * The fields in the menu
@@ -40,7 +26,7 @@ const ImportView = (props) => {
       <button onClick={setBlank} >
         Use blank
       </button >
-      <p>Caution: Any changes made here will completely erase current settings</p>
+      <p><b>Caution</b>: Changes are made in realtime so typing in this box will completely erase current settings</p>
       <textarea
         onChange={onChange}
         onInput={onChange}
