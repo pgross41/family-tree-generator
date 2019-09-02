@@ -8,8 +8,8 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
-// - Support importing CSV 
 // - Ability to rotate 90deg by generation  
+// - Support importing CSV 
 // - Revert button on import page? or maybe a history
 
 
@@ -17,7 +17,7 @@ import { ContextProvider } from './Context';
  * Wrapper component for full application
  */
 const App = () => {
-  const [menuOpen, setMenuOpen] = React.useState(true); // Testing... default should be false
+  const [menuOpen, setMenuOpen] = React.useState(false); 
   return (
     <div className={styles.app}>
       <ContextProvider>

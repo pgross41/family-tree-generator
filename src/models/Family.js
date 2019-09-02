@@ -1,12 +1,13 @@
 /**
  * Read CSV text or members config data and creates parent/child relationships
  * The "children" field is an array that is populated by matching "name" to "parentName"
- * This also adds calculated metadata fields that are needed to position nodes on the tree
+ * This also calculates metadata for each generation 
  */
 
 import Papa from 'papaparse';
 import Member from './FamilyMember';
-import MemberData from './MemberData';
+import MemberData from './FamilyMemberData';
+import Generation from './Generation';
 
 /**
  * Represents a collection of families. 
@@ -18,8 +19,8 @@ class Family {
     constructor(props) {
         const defaultprops = {
             members: [],
-            memberData: [], 
-            metadata: undefined,
+            memberData: [],
+            generations: {},
             rootMember: undefined,
         }
         Object.assign(this, { ...defaultprops, ...props });
@@ -86,16 +87,14 @@ class Family {
 
         // Calculate metadata, nodeIDs, and remove the temp _included field
         let nodeId = 0;
-        this.metadata = { depthCounts: [1], depthMinThetas: [undefined] }
         const prevSiblings = []; // These are generational siblings, it does not require same parent 
         const handleChildren = (children, depth = 0, ancestors = [1]) => {
             depth++;
             let childId = 0;
             children.forEach(child => {
                 delete child._included;
-                const generationId = this.metadata.depthCounts[depth] + 1 || 1;
-                this.metadata.depthCounts[depth] = generationId;
-                child.generationId = generationId;
+                child.generation = this.generations[depth] = this.generations[depth] || new Generation();
+                child.generation.addMember(child);
                 child.childId = ++childId;
                 child.maxChildId = children.length;
                 child.depth = depth;
@@ -120,6 +119,14 @@ class Family {
     getNewest() {
         const maxMemberId = this.members.reduce((max, member) => Math.max(max, member.id), Number.NEGATIVE_INFINITY);
         return this.get(maxMemberId);
+    }
+
+    getMinTheta() {
+        return Object.values(this.generations).reduce((prev, curr) => Math.min(prev, curr.getMinTheta()), Infinity);
+    }
+
+    getGenerationCount() {
+        return Object.keys(this.generations).length
     }
 
     findByName(name) {

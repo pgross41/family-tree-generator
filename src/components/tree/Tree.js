@@ -14,8 +14,8 @@ const toRad = (degrees) => degrees * (Math.PI / 180)
 const Tree = (props) => {
   const { state } = React.useContext(Context);
   const config = state.config;
-  const rootMember = state.family.rootMember;
-  const metadata = state.family.metadata;
+  const family = state.family;
+  const rootMember = family.rootMember;
 
   // Traverse the family tree and apend to the DOM's tree
   let key = 0;
@@ -39,19 +39,21 @@ const Tree = (props) => {
     const parentSibCount = child.parent.parent && child.parent.parent.children.length;
     const maxTheta = parentCalc ? parentCalc.singleNodeTheta * parentSibCount : toRad(config.treeAngle);
     const depth = child.depth;
-    const maxDepth = metadata.depthCounts.length;
+    const maxDepth = family.getGenerationCount() + 1;
     const r = (100 / maxDepth) * child.depth;
-    const singleNodeTheta = maxTheta / Math.max(1, (metadata.depthCounts[depth] - 1));
+    const singleNodeTheta = maxTheta / Math.max(1, (child.generation.size() - 1));
     const childId = child.childId;
     const thetaStart = parentCalc ? parentCalc.theta : Math.PI + (Math.PI - maxTheta) / 2;
     const prevSiblingTheta = (child.prevSibling && child.prevSibling.calculations.theta) || 0;
-    const theta0 = thetaStart + singleNodeTheta * (childId - (parentCalc ? config.childOffsetFactor : 1));
+    const offset = (childId - 1 - (parentCalc ? config.childOffsetFactor : 0));
+    const theta0 = thetaStart + singleNodeTheta * offset;
     const theta1 = Math.max(prevSiblingTheta + toRad(config.minAngleBetweenSibs), theta0);
     const theta = theta1 + toRad(child.offsetAngle || 0);
     const isRightHalf = theta > (Math.PI + (Math.PI / 2));
-    if (child.generationId === 1) {
-      metadata.depthMinThetas[depth] = theta;
+    if (depth === 1) {
+      console.log(child, singleNodeTheta, theta)
     }
+    console.log(r, theta);
     return {
       half: isRightHalf ? 'right' : 'left',
       singleNodeTheta: singleNodeTheta,
@@ -73,15 +75,15 @@ const Tree = (props) => {
   const getGenerationLeaves = () => {
     const leafNodes = [];
     const offset = Math.PI / 50;
-    const thetaStart = Math.min(...metadata.depthMinThetas.slice(1)) - offset;
-    const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1))) + offset;
+    const thetaStart = family.getMinTheta() - offset;
+    const thetaEnd = Math.PI * 2 + (Math.PI - family.getMinTheta()) + offset;
     let key = 0;
     let maxR = 0;
     const addRow = (depth, extraR = 0, mod = 1) => {
       const leavesInRow = Math.round(depth * 25);
       [...Array(leavesInRow)].forEach((_, idx) => {
         if (!(idx % mod)) {
-          const r = ((100 / metadata.depthCounts.length) * depth) + 10 + extraR;
+          const r = ((100 / (family.getGenerationCount() + 1)) * depth) + 10 + extraR;
           maxR = r < maxR || extraR ? maxR : r;
           const theta = thetaStart + ((thetaEnd - thetaStart) / (leavesInRow - 1)) * idx;
           const style = polarToStyle(r, theta);
@@ -90,9 +92,11 @@ const Tree = (props) => {
       });
 
     }
-    Object.keys(metadata.depthCounts).forEach((depth) => addRow(depth));
-    addRow(metadata.depthCounts.length - 1, 5, 2);
-    addRow(metadata.depthCounts.length - 1, 8, 5);
+    // The regular "ring"
+    Object.keys(family.generations).forEach((depth) => addRow(depth));
+    // Fatten up the outer "ring"
+    addRow(family.getGenerationCount(), 5, 2);
+    addRow(family.getGenerationCount(), 8, 5);
     return {
       leafNodes: leafNodes,
       maxR: maxR
@@ -102,20 +106,18 @@ const Tree = (props) => {
   const getEdgeLeaves = () => {
     const leafNodes = [];
     const offset = Math.PI / 50;
-    const thetaStart = Math.min(...metadata.depthMinThetas.slice(1)) + offset;
-    const thetaEnd = Math.PI * 2 + (Math.PI - Math.min(...metadata.depthMinThetas.slice(1))) - offset;
+    const thetaStart = family.getMinTheta() + offset;
+    const thetaEnd = Math.PI * 2 + (Math.PI - family.getMinTheta()) - offset;
     const leftTheta = thetaStart - toRad(config.edgeLeafOffsetAngle)
     const rightTheta = thetaEnd + toRad(config.edgeLeafOffsetAngle)
     let key = 0;
-    [...Array(metadata.depthCounts.length)].forEach((_, depth) => {
+    Object.keys(family.generations).forEach(depth => {
       // The "edge" leaves
-      if (parseInt(depth) !== 0) {
-        const r = ((100 / metadata.depthCounts.length) * depth) - 11
-        // Left side
-        leafNodes.push(<LeafNode id={++key} key={key} style={polarToStyle(r, leftTheta)} />);
-        // Right side
-        leafNodes.push(<LeafNode id={++key} key={key} style={polarToStyle(r, rightTheta)} />);
-      }
+      const r = ((100 / (family.getGenerationCount() + 1)) * depth) - 11
+      // Left side
+      leafNodes.push(<LeafNode id={++key} key={key} style={polarToStyle(r, leftTheta)} />);
+      // Right side
+      leafNodes.push(<LeafNode id={++key} key={key} style={polarToStyle(r, rightTheta)} />);
     });
     return {
       leafNodes: leafNodes,
@@ -145,10 +147,10 @@ const Tree = (props) => {
   const childNodes = getChildNodes(rootMember.children);
   const generationLeaves = getGenerationLeaves();
   const edgeLeaves = getEdgeLeaves()
-  
+
   return (
     <div className={styles.tree} style={treeStyle}>
-      {metadata.depthCounts.length > 1 && <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />}
+      {family.getGenerationCount() > 1 && <TreePie style={treePieStyle} thetaStart={edgeLeaves.thetaStart} r={generationLeaves.maxR} />}
       <div className={styles.treeNodes} style={treeNodesStyle}>
         <RootNode {...rootMember} />
         {childNodes}

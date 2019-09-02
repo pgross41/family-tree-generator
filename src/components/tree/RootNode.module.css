@@ -2,7 +2,7 @@
   position: absolute;
   left: 50%;
   bottom: -330px;
-  --width: 600px;
+  --width: 100%;
   width: var(--width);
   margin-left: calc(var(--width) / -2);
   font-size: 2em;

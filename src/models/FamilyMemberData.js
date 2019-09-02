@@ -2,7 +2,7 @@
  * Holds the config data needed to create a FamilyMember
  */
 
-class MemberData {
+class FamilyMemberData {
     constructor(props = {}) {
         const defaultprops = {
             id: undefined, // This will always be set below 
@@ -21,13 +21,13 @@ class MemberData {
             .reduce((obj, key) => ({ ...obj, [key]: props[key] }), {});
         Object.assign(this, { ...defaultprops, ...validProps });
         if (this.id) {
-            MemberData.nextId = (Math.max(MemberData.nextId, this.id));
+            FamilyMemberData.nextId = (Math.max(FamilyMemberData.nextId, this.id));
         } else {
-            this.id = ++MemberData.nextId;
+            this.id = ++FamilyMemberData.nextId;
         }
     }
 }
 
-MemberData.nextId = 0;
+FamilyMemberData.nextId = 0;
 
-export default MemberData;
+export default FamilyMemberData;

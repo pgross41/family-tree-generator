@@ -9,7 +9,7 @@ const Title = (props) => {
   const { state } = React.useContext(Context);
   const config = state.config
   return (
-    <div className={styles.title} style={{ width: config.treeWidth }}>
+    <div className={styles.title} style={{ width: `${config.treeWidth}px` }}>
       {config.title}
       <div className={styles.subTitle}>
         {config.subTitle}

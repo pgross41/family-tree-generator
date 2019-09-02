@@ -1,10 +1,10 @@
-import MemberData from './MemberData';
+import FamilyMemberData from './FamilyMemberData';
 
 /**
- * Adds functions and calculated fields onto MemberData
+ * Adds functions and calculated fields onto FamilyMemberData
  */
 
-class FamilyMember extends MemberData {
+class FamilyMember extends FamilyMemberData {
     constructor(props = {}) {
         super(props);
         Object.assign(this, { ...props });
