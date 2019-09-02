@@ -60,6 +60,7 @@ class Family {
 
         // FamilyMember objects
         this.members = [];
+        this.generations = {};
 
         // Create relationships
         const getChildren = (parent) => this.memberData

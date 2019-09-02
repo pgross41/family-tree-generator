@@ -5,4 +5,9 @@
   height: 100%;
   margin-right: var(--panelWidth);
   transition: margin var(--animationDuration);
+  cursor: grab;
+}
+
+.mouseDown { 
+  cursor: grabbing; 
 }

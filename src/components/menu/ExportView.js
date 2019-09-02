@@ -44,7 +44,9 @@ const ExportView = (props) => {
         el(doc, 'treeCanvas').style.height = `${height}px`;
       },
     });
-    canvas.toBlob((blob) => {
+    
+    canvas.toBlob(blob => {
+      console.log(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = `${state.config.title}.png`;

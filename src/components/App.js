@@ -8,7 +8,9 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
+// - Export image button not working? Grelle only
 // - Ability to rotate 90deg by generation  
+// - Font size
 // - Support importing CSV 
 // - Revert button on import page? or maybe a history
 
