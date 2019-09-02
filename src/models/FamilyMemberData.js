@@ -13,6 +13,7 @@ class FamilyMemberData {
             spouseBorn: "",
             parentId: undefined,
             offsetAngle: undefined,
+            childrenMinAngleBetweenSibs: undefined,
             noBorder: undefined,
         }
         // Don't accept anything not included in defaultProps

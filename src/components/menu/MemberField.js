@@ -104,6 +104,10 @@ const MemberField = React.memo((props) => {
         {textInput({ configKey: "offsetAngle", defaultValue: "0" })}
       </div>
       <div className={styles.inline}>
+        <div>Child Min Sibling Angle</div>
+        {textInput({ configKey: "childrenMinAngleBetweenSibs", defaultValue: "0" })}
+      </div>
+      <div className={styles.inline}>
         <div>Hide Border</div>
         <input
           type="checkbox"

@@ -26,8 +26,8 @@ const Tree = (props) => {
       half={child.calculations.half}
       style={style}
       key={key++}
-      hasTopBorder={child.childId === 1 && !child.noBorder}
-      hasBottomBorder={child.childId === child.maxChildId && !child.noBorder}
+      hasTopBorder={child.isFirst() && !child.noBorder}
+      hasBottomBorder={child.isLast() && !child.noBorder}
     />);
     all.push(getChildNodes(child.children));
     return all.flat();
@@ -37,27 +37,22 @@ const Tree = (props) => {
   const getChildNodePosition = (child) => {
     const parentCalc = child.parent.calculations;
     const parentSibCount = child.parent.parent && child.parent.parent.children.length;
-    const maxTheta = parentCalc ? parentCalc.singleNodeTheta * parentSibCount : toRad(config.treeAngle);
-    const depth = child.depth;
-    const maxDepth = family.getGenerationCount() + 1;
-    const r = (100 / maxDepth) * child.depth;
-    const singleNodeTheta = maxTheta / Math.max(1, (child.generation.size() - 1));
-    const childId = child.childId;
-    const thetaStart = parentCalc ? parentCalc.theta : Math.PI + (Math.PI - maxTheta) / 2;
+    const familyThetaLen = parentCalc ? parentCalc.familyThetaLen / parentSibCount : toRad(config.treeAngle);
+    const childThetaLen = familyThetaLen / (child.siblings.length + 1);
+    const treeThetaStart = Math.PI + (Math.PI - toRad(config.treeAngle)) / 2;
     const prevSiblingTheta = (child.prevSibling && child.prevSibling.calculations.theta) || 0;
-    const offset = (childId - 1 - (parentCalc ? config.childOffsetFactor : 0));
-    const theta0 = thetaStart + singleNodeTheta * offset;
-    const theta1 = Math.max(prevSiblingTheta + toRad(config.minAngleBetweenSibs), theta0);
-    const theta = theta1 + toRad(child.offsetAngle || 0);
-    const isRightHalf = theta > (Math.PI + (Math.PI / 2));
-    if (depth === 1) {
-      console.log(child, singleNodeTheta, theta)
-    }
-    console.log(r, theta);
+    const thetaStart = parentCalc ? parentCalc.theta - familyThetaLen / 2 : treeThetaStart;
+    const thetaAdjusted = Math.max(
+      thetaStart + childThetaLen * (child.childId - 0.5), // Where it "should" be
+      prevSiblingTheta + toRad(config.minAngleBetweenSibs), // With global minimum 
+      prevSiblingTheta + toRad(child.parent.childrenMinAngleBetweenSibs || 0) // With sibling-level minimum
+    ) + toRad(child.offsetAngle || 0);
+    const r = (100 / (family.getGenerationCount() + 1)) * child.depth;
+    const isRightHalf = thetaAdjusted > (Math.PI + (Math.PI / 2));
     return {
       half: isRightHalf ? 'right' : 'left',
-      singleNodeTheta: singleNodeTheta,
-      theta: theta,
+      familyThetaLen: familyThetaLen,
+      theta: thetaAdjusted,
       r: r
     }
   }
@@ -74,9 +69,8 @@ const Tree = (props) => {
 
   const getGenerationLeaves = () => {
     const leafNodes = [];
-    const offset = Math.PI / 50;
-    const thetaStart = family.getMinTheta() - offset;
-    const thetaEnd = Math.PI * 2 + (Math.PI - family.getMinTheta()) + offset;
+    const thetaStart = Math.PI + (Math.PI - toRad(config.treeAngle)) / 2;
+    const thetaEnd= Math.PI * 2 - ((Math.PI - toRad(config.treeAngle)) / 2);
     let key = 0;
     let maxR = 0;
     const addRow = (depth, extraR = 0, mod = 1) => {
@@ -105,9 +99,8 @@ const Tree = (props) => {
 
   const getEdgeLeaves = () => {
     const leafNodes = [];
-    const offset = Math.PI / 50;
-    const thetaStart = family.getMinTheta() + offset;
-    const thetaEnd = Math.PI * 2 + (Math.PI - family.getMinTheta()) - offset;
+    const thetaStart = Math.PI + (Math.PI - toRad(config.treeAngle)) / 2;
+    const thetaEnd= Math.PI * 2 - ((Math.PI - toRad(config.treeAngle)) / 2);
     const leftTheta = thetaStart - toRad(config.edgeLeafOffsetAngle)
     const rightTheta = thetaEnd + toRad(config.edgeLeafOffsetAngle)
     let key = 0;

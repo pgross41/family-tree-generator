@@ -29,6 +29,20 @@
   margin: auto;
 }
 
+.leaves.top,
+.leaves.bottom {
+  position: absolute;
+  margin-left: 70px;
+}
+
+.leaves.top {
+  margin-top: -25px;
+}
+
+.leaves.bottom {
+  margin-top: -1px;
+}
+
 .left {
   transform: rotate(180deg);
 }

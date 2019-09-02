@@ -11,7 +11,6 @@ export default {
   "treeHeight": 1000,
   "treeAngle": 180,
   "minAngleBetweenSibs": 5,
-  "childOffsetFactor": 1.0,
   "edgeLeafOffsetAngle": 0,
   "members": [{}]
 }
