@@ -5,10 +5,6 @@
   border-right: 1px solid transparent;
 }
 
-.memberField button { 
-  width: 100px;
-}
-
 .active{
   background-color: #777;
 }
@@ -25,7 +21,7 @@
 .memberField input { 
   display: inline-block;
   margin-right: 10px;
-  width: calc(33% - 6px);
+  width: calc(100% - 4px);
 }
 
 .memberField input[type=checkbox] { 
@@ -36,14 +32,25 @@
   margin-right: 0;
 }
 
-.inline { 
+.inline3 { 
   display: inline-block;
+  width: 33.3%;
+}
+
+.inline4 { 
+  display: inline-block;
+  width: 25%;
+}
+
+.title { 
+  line-height: 1.2;
+  margin-top: 5px;
 }
 
 .name{
   cursor: pointer;
   display: inline-block;
-  width: calc(100% - 80px);
+  width: calc(100% - 120px);
 }
 
 .name:hover{
@@ -51,7 +58,7 @@
   color: #f5ffaf;
 }
 
-.reorderButton{
+.memberButton{
   float: right;
   font-size: 26px;
   width: 40px;
@@ -60,22 +67,18 @@
   height: 28px;
 }
 
-.reorderButton:hover{
+.memberButton:hover{
   cursor: pointer;
   color: #d5e65c;
 }
 
-.removeButton{
-  float: right;
-}
-
-.removeButton button {
-  background-color: #c33535;
+.removeButton {
   color: #fff;
+  font-size: 0.8em;
 }
 
-.removeButton button:hover {
-  background-color: #e01313;
+.removeButton:hover {
+  color: #ff9c9c;
 }
 
 .childrenLabel {

@@ -8,18 +8,20 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
-// - Export image button not working? Grelle only
+// - Json numbers should all be numbers (not just tree size) 
 // - Ability to rotate 90deg by generation  
 // - Font size
+// - Draw divider leaves instead of adding to childleaves
 // - Support importing CSV 
 // - Revert button on import page? or maybe a history
+// - Zoom in on selected member
 
 
 /**
  * Wrapper component for full application
  */
 const App = () => {
-  const [menuOpen, setMenuOpen] = React.useState(false); 
+  const [menuOpen, setMenuOpen] = React.useState(true); 
   return (
     <div className={styles.app}>
       <ContextProvider>

@@ -1,6 +1,7 @@
 import React from 'react';
 import TreeNode from './TreeNode.js';
 import styles from './LeafNode.module.css';
+import cn from 'classnames';
 
 import leaves1 from '../../images/longLeaves1.svg';
 import leaves2 from '../../images/longLeaves2.svg';
@@ -23,7 +24,7 @@ const LeafNode = (props) => {
   return (
     <TreeNode style={props.style} className={styles.leafNode}>
       <img
-        className={`${styles.leafNodeImg}`}
+        className={cn(styles.leafNodeImg, styles[props.classKey])}
         src={leafArray[props.id % leafArray.length]}
         alt=""
       />

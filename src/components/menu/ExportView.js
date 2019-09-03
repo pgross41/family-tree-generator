@@ -46,10 +46,10 @@ const ExportView = (props) => {
     });
     
     canvas.toBlob(blob => {
-      console.log(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = `${state.config.title}.png`;
+      if(!blob) throw Error("Something went wrong");
       a.href = window.URL.createObjectURL(blob);
       a.click();
       a.remove();

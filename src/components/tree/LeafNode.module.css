@@ -1,8 +1,13 @@
-.leafNode{
+.leafNode {
 
 }
 
-.leafNodeImg{
+.leafNodeImg {
   height: 35px;
   margin-top: -17px;
+}
+
+.thin {
+  height: 25px;
+  margin-left: 15px;
 }

@@ -122,10 +122,6 @@ class Family {
         return this.get(maxMemberId);
     }
 
-    getMinTheta() {
-        return Object.values(this.generations).reduce((prev, curr) => Math.min(prev, curr.getMinTheta()), Infinity);
-    }
-
     getGenerationCount() {
         return Object.keys(this.generations).length
     }

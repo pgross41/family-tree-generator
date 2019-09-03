@@ -4,7 +4,7 @@
 const date = new Date();
 export default {
   "debugMode": false,
-  "zoom": 1,
+  "zoom": 0.5,
   "title": "My Family",
   "subTitle": `${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`,
   "treeWidth": 2000,

@@ -17,12 +17,20 @@ class FamilyMember extends FamilyMemberData {
         ].flat();
     }
 
-    isFirst() {
+    isFirstChild() {
         return this.childId === 1;
     }
 
-    isLast() {
+    isLastChild() {
         return this.childId === this.maxChildId;
+    }
+
+    isFirst() {
+        return this.generation && this.generationId === 1;
+    }
+
+    isLast() {
+        return this.generation && this.generationId === this.generation.size();
     }
 
 }

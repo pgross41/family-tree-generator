@@ -1,7 +1,7 @@
 import React from 'react';
 import fieldStyles from './ConfigField.module.css';
 import styles from './MemberField.module.css';
-import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore, MdDeleteForever } from "react-icons/md";
 import { Context } from './../Context';
 import { handleNumberFieldArrowKey } from '../../util/helpers';
 
@@ -57,13 +57,22 @@ const MemberField = React.memo((props) => {
   const onFieldKeyDown = (event, key) => updateMember({ [key]: handleNumberFieldArrowKey(event) });
 
   /**
-   * Elements 
+   * Elements - Using functions instead of react components because they don't re-render on change 
    */
-  const textInput = (props) => (<input ref={props.ref}
-    value={member[props.configKey] || props.defaultValue || ''}
-    onChange={(event) => onFieldChange(event, props.configKey)}
-    onKeyDown={(event) => onFieldKeyDown(event, props.configKey)}
-  />)
+  const textInput = (props) => (
+    <input ref={props.ref}
+      value={member[props.configKey] || props.defaultValue || ''}
+      onChange={(event) => onFieldChange(event, props.configKey)}
+      onKeyDown={(event) => onFieldKeyDown(event, props.configKey)}
+    />
+  );
+
+  const inlineField = (props) => (
+    <div className={props.className || styles.inline3}>
+      <div className={styles.title}>{props.title}</div>
+      {props.children}
+    </div>
+  );
 
   const addChildButton = (
     <div className={styles.addChildButton}>
@@ -87,38 +96,54 @@ const MemberField = React.memo((props) => {
 
   const expanded = <>
     <div>
-      <div>Name / Birth / Death</div>
-      {textInput({ configKey: "name", ref: nameField })}
-      {textInput({ configKey: "born" })}
-      {textInput({ configKey: "died" })}
+      {inlineField({
+        title: "Name",
+        children: textInput({ configKey: "name", ref: nameField })
+      })}
+      {inlineField({
+        title: "Birth",
+        children: textInput({ configKey: "born" })
+      })}
+      {inlineField({
+        title: "Death",
+        children: textInput({ configKey: "died" })
+      })}
     </div>
     <div>
-      <div>Partner Name / Birth / Death</div>
-      {textInput({ configKey: "spouseName" })}
-      {textInput({ configKey: "spouseBorn" })}
-      {textInput({ configKey: "spouseDied" })}
+      {inlineField({
+        title: "Partner Name",
+        children: textInput({ configKey: "spouseName" })
+      })}
+      {inlineField({
+        title: "Partner Birth",
+        children: textInput({ configKey: "spouseBorn" })
+      })}
+      {inlineField({
+        title: "Partner Death",
+        children: textInput({ configKey: "spouseDied" })
+      })}
     </div>
     {!props.root && <>
-      <div className={styles.inline}>
-        <div>Angle Adjustment</div>
-        {textInput({ configKey: "offsetAngle", defaultValue: "0" })}
-      </div>
-      <div className={styles.inline}>
-        <div>Child Min Sibling Angle</div>
-        {textInput({ configKey: "childrenMinAngleBetweenSibs", defaultValue: "0" })}
-      </div>
-      <div className={styles.inline}>
-        <div>Hide Border</div>
-        <input
-          type="checkbox"
-          defaultChecked={member.noBorder}
-          onChange={(event) => onFieldChange(event, "noBorder", event.target.checked)}>
-        </input>
-      </div>
-      <div className={`${styles.inline} ${styles.removeButton} `}>
-        <div>&nbsp;</div>
-        <button onClick={onClickRemove}>Remove</button>
-      </div>
+      {inlineField({
+        title: "Member Adjustment",
+        children: textInput({ configKey: "offsetAngle", defaultValue: "0" }),
+        className: styles.inline4
+      })}
+      {inlineField({
+        title: "Child Min Sibling Angle",
+        children: textInput({ configKey: "childrenMinAngleBetweenSibs", defaultValue: "0" }),
+        className: styles.inline4
+      })}
+      {inlineField({
+        title: "Child Edge 1 Adjustment",
+        children: textInput({ configKey: "childEdge1Adjustment", defaultValue: "0" }),
+        className: styles.inline4
+      })}
+      {inlineField({
+        title: "Child Edge 2 Adjustment",
+        children: textInput({ configKey: "childEdge2Adjustment", defaultValue: "0" }),
+        className: styles.inline4
+      })}
     </>}
     <div>
       <div>
@@ -133,12 +158,15 @@ const MemberField = React.memo((props) => {
     </div>
   </>;
 
-  const reorderButtons = <>
-    <div onClick={(event) => onClickReorder(event, 1)} className={styles.reorderButton} title="Move Down" >
-      <MdExpandMore className={member.isLast() ? styles.dithered : undefined} />
+  const memberButtons = <>
+    <div className={styles.memberButton}>
+      <MdDeleteForever className={styles.removeButton} onClick={onClickRemove} title="Remove" />
     </div>
-    <div onClick={(event) => onClickReorder(event, -1)} className={styles.reorderButton} title="Move Up">
-      <MdExpandLess className={member.isFirst() ? styles.dithered : undefined} />
+    <div onClick={(event) => onClickReorder(event, 1)} className={styles.memberButton} title="Move Down" >
+      <MdExpandMore className={member.isLastChild() ? styles.dithered : undefined} />
+    </div>
+    <div onClick={(event) => onClickReorder(event, -1)} className={styles.memberButton} title="Move Up">
+      <MdExpandLess className={member.isFirstChild() ? styles.dithered : undefined} />
     </div>
   </>;
 
@@ -146,7 +174,7 @@ const MemberField = React.memo((props) => {
     <div className={className}>
       <div onClick={onClickExpand}>
         <div className={nameClassName}>{name}</div>
-        {!props.root && isActive && reorderButtons}
+        {!props.root && isActive && memberButtons}
       </div>
       {isActive ? expanded : collapsed}
     </div >

@@ -14,7 +14,8 @@ class FamilyMemberData {
             parentId: undefined,
             offsetAngle: undefined,
             childrenMinAngleBetweenSibs: undefined,
-            noBorder: undefined,
+            childEdge1Adjustment: undefined,
+            childEdge2Adjustment: undefined
         }
         // Don't accept anything not included in defaultProps
         const validProps = Object.keys(props)
