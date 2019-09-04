@@ -8,13 +8,19 @@ import { handleNumberFieldArrowKey } from '../../util/helpers';
  */
 const ConfigField = (props) => {
   const { state, dispatch } = React.useContext(Context);
+  const onChange = (event) => dispatch(["setConfig", {
+    [props.configKey]: props.attrs.type === "checkbox" ? event.target.checked : event.target.value
+  }]);
+  const onKeyDown = (event) => dispatch(["setConfig", { [props.configKey]: handleNumberFieldArrowKey(event) }]);
   return (
     <div className={styles.configField}>
       <div>{props.label}</div>
       <input
         value={state.config[props.configKey]}
-        onChange={(event) => dispatch(["setConfig", { [props.configKey]: event.target.value }])}
-        onKeyDown={(event) => dispatch(["setConfig", { [props.configKey]: handleNumberFieldArrowKey(event) }])}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        type="number"
+        {...props.attrs}
       />
     </div>
   );

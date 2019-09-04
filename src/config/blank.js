@@ -12,5 +12,6 @@ export default {
   "treeAngle": 180,
   "minAngleBetweenSibs": 5,
   "edgeLeafOffsetAngle": 0,
+  "wrapNames": false,
   "members": [{}]
 }

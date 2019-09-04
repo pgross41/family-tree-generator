@@ -19,7 +19,11 @@
   font-family: 'Shadows Into Light', cursive;
 }
 
-.member, .spouse{
+.inline {
+  display: inline;
+}
+
+.inlineBlock {
   display: inline-block;
 }
 

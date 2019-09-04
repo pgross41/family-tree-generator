@@ -4,6 +4,7 @@ import Field from './ConfigField';
 import MemberField from './MemberField';
 import { MdSearch } from "react-icons/md";
 import { Context } from './../Context';
+import { placeholder } from '@babel/types';
 
 /**
  * The fields in the menu
@@ -17,14 +18,15 @@ const ConfigFields = (props) => {
   return (
     <div className={styles.configFields}>
       <h3>Labels</h3>
-      <Field label="Title" configKey="title" />
-      <Field label="Subtitle" configKey="subTitle" />
+      <Field label="Title" configKey="title" attrs={{ type: "text" }} />
+      <Field label="Subtitle" configKey="subTitle" attrs={{ type: "text" }} />
       <h3>Tree Math</h3>
       <Field label="Width" configKey="treeWidth" />
       <Field label="Height" configKey="treeHeight" />
       <Field label="Tree Angle" configKey="treeAngle" />
       <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
       <Field label="Min Sibling Angle" configKey="minAngleBetweenSibs" />
+      <Field label="Squish Partner Names" configKey="wrapNames" attrs={{ type: "checkbox" }} />
       <h3>
         Family Members
           <div className={styles.search} >

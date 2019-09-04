@@ -29,8 +29,6 @@ const Tree = (props) => {
       half={child.calculations.half}
       style={style}
       key={key++}
-      hasTopBorder={child.isFirstChild() && !child.noBorder}
-      hasBottomBorder={child.isLastChild() && !child.noBorder}
     />);
     all.push(getChildNodes(child.children));
     return all.flat();
@@ -125,7 +123,6 @@ const Tree = (props) => {
     });
     return leafNodes;
   }
-
 
   const treeWidth = `${config.treeWidth}px`;
   const treeHeight = `${config.treeHeight}px`;
