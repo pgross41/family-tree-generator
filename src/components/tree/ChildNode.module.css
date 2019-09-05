@@ -9,6 +9,10 @@
   margin-top: calc(var(--height) / -2);
 }
 
+.highlight { 
+  background-color: rgba(228, 255, 79, 0.5);
+}
+
 .name {
   font-family: 'Dancing Script', cursive;
   font-weight: 700;

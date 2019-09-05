@@ -8,8 +8,9 @@ import { Context } from './../Context';
 /**
  * A child and their spouse on the tree
  */
-const ChildNode = (props) => {
-  const { state } = React.useContext(Context);
+const ChildNode = React.memo((props) => {
+  const { state, dispatch } = React.useContext(Context);
+  const ref = React.useRef();
   const wrapNames = state.config.wrapNames;
   const blank = wrapNames ? '' : '\u00A0';
   const showPlusSign = props.spouseName && !wrapNames;
@@ -20,9 +21,13 @@ const ChildNode = (props) => {
   const spouseDate = format(props.spouseBorn) + (props.spouseDied ? ` - ${format(props.spouseDied)}` : blank);
   const displayClassName = wrapNames ? styles.inline : styles.inlineBlock;
   const leftOrRightClassName = styles[props.half] || blank;
+  const selectedMemberId = (state.selectedMember || {}).id;
+  if (!state.memberEls[props.child.id]) {
+    dispatch(["setMemberEl", { [props.child.id]: ref.current }])
+  }
   return (
-    <TreeNode style={props.style} className={styles.childNode}>
-      <div className={leftOrRightClassName}>
+    <TreeNode ref={ref} style={props.style} className={styles.childNode}>
+      <div className={cn(leftOrRightClassName, props.id === selectedMemberId && styles.highlight)}>
         <div className={cn(displayClassName, styles.member)}>
           <div className={styles.name}>{name}</div>
           <div className={styles.date}>{date}</div>
@@ -34,6 +39,6 @@ const ChildNode = (props) => {
       </div>
     </TreeNode >
   );
-}
+});
 
 export default ChildNode;

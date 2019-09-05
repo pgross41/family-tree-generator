@@ -7,7 +7,8 @@ const TreeCanvas = (props) => {
   const { state } = React.useContext(Context);
   const el = React.useRef();
   const style = { marginRight: props.menuOpen ? undefined : 0 }
-  const zoomStyle = { zoom: state.config.zoom };
+  const zoom = state.config.zoom;
+  const zoomStyle = { zoom: zoom };
   const className = cn(styles.treeCanvas, state.config.debugMode && 'debugMode');
   const mouse = {
     isDown: false,
@@ -40,6 +41,19 @@ const TreeCanvas = (props) => {
     el.current.scrollTop = mouse.scrollTop - (y - mouse.startY);
 
   };
+
+  if (el.current) {
+    const activeNode = state.memberEls[state.selectedMember.id];
+    if (activeNode) {
+      const nodeX = activeNode.offsetLeft + activeNode.offsetWidth / 2;
+      const nodeY = activeNode.offsetTop + activeNode.offsetHeight / 2;
+      el.current.scroll({
+        top: (nodeY * zoom) - (el.current.offsetHeight / 2 * zoom) / zoom,
+        left: (nodeX * zoom) - (el.current.offsetWidth / 2 * zoom) / zoom,
+        behavior: 'smooth'
+      });
+    }
+  }
 
   return (
     <div

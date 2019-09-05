@@ -5,6 +5,8 @@ import defaultConfig from './../config/config';
 const reducer = (state, action) => {
     const [type, value] = [...action];
     switch (type) {
+        case "setMemberEl":
+            return { ...state, memberEls: {...state.memberEls, ...value}}
         case "setConfig":
             return { ...state, config: { ...state.config, ...value } };
         case "importSettings":
@@ -26,8 +28,10 @@ const reducer = (state, action) => {
 };
 
 const initialState = {
-    family: new Family().import(defaultConfig.members),
     config: defaultConfig,
+    family: new Family().import(defaultConfig.members),
+    members: [],
+    memberEls: {}, 
     selectedMember: {},
 };
 

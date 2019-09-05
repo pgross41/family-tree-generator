@@ -26,6 +26,7 @@ const MemberField = React.memo((props) => {
   const setSelectedMember = (member) => dispatch(["setSelectedMember", member || {}]);
   // React.useEffect(() => nameField.current ? nameField.current.focus() : undefined, []);
 
+
   /**
    * Event handlers
    */

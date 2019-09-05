@@ -29,6 +29,7 @@ const Tree = (props) => {
       half={child.calculations.half}
       style={style}
       key={key++}
+      child={child}
     />);
     all.push(getChildNodes(child.children));
     return all.flat();
