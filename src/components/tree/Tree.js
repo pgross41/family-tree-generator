@@ -125,7 +125,7 @@ const Tree = (props) => {
   }
 
   const treeWidth = `${config.treeWidth}px`;
-  const treeHeight = `${config.treeHeight}px`;
+  const treeHeight = `${config.treeWidth / 2}px`;
 
   const treeStyle = {
     width: treeWidth,

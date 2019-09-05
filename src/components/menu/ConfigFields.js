@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './ConfigFields.module.css';
 import Field from './ConfigField';
 import MemberField from './MemberField';
+import blankConfig from './../../config/blank';
 import { MdSearch } from "react-icons/md";
-import { Context } from './../Context';
-import { placeholder } from '@babel/types';
+import { Context } from "./../Context";
 
 /**
  * The fields in the menu
@@ -20,13 +20,13 @@ const ConfigFields = (props) => {
       <h3>Labels</h3>
       <Field label="Title" configKey="title" attrs={{ type: "text" }} />
       <Field label="Subtitle" configKey="subTitle" attrs={{ type: "text" }} />
-      <h3>Tree Math</h3>
-      <Field label="Width" configKey="treeWidth" />
-      <Field label="Height" configKey="treeHeight" />
-      <Field label="Tree Angle" configKey="treeAngle" />
-      <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" />
-      <Field label="Min Sibling Angle" configKey="minAngleBetweenSibs" />
-      <Field label="Squish Partner Names" configKey="wrapNames" attrs={{ type: "checkbox" }} />
+      <h3>Tree Settings</h3>
+      <Field label="Tree Size" configKey="treeWidth" attrs={{ placeholder: 'px' }} />
+      <Field label="Tree Angle" configKey="treeAngle" attrs={{ placeholder: 'degrees' }} />
+      <Field label="Edge Leaf Offset" configKey="edgeLeafOffsetAngle" attrs={{ placeholder: 'degrees' }} />
+      <Field label="Min Sibling Angle" configKey="minAngleBetweenSibs" attrs={{ placeholder: 'degrees' }} />
+      <Field label="Date Format" configKey="dateFormat" attrs={{ type: "text", placeholder: blankConfig.dateFormat }} />
+      <Field label="Squish Names Together" configKey="wrapNames" attrs={{ type: "checkbox" }} />
       <h3>
         Family Members
           <div className={styles.search} >

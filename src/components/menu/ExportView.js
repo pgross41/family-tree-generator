@@ -29,8 +29,8 @@ const ExportView = (props) => {
   const saveImg = async () => {
     setImgLoading(true);
     const width = state.config.treeWidth;
-    // Make sure the tree trunk + words fit. TODO: Remove hardcoded 600.
-    const height = Math.max(state.config.treeHeight * 2, state.config.treeHeight + 600); 
+    // Make sure the tree trunk + words fit
+    const height = Math.max(width, width / 2 + 600);
     const el = (document, id) => document.getElementById(id);
     const canvas = await html2canvas(document.getElementById('treeCanvas'), {
       scale: 3,
@@ -44,12 +44,12 @@ const ExportView = (props) => {
         el(doc, 'treeCanvas').style.height = `${height}px`;
       },
     });
-    
+
     canvas.toBlob(blob => {
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = `${state.config.title}.png`;
-      if(!blob) throw Error("Something went wrong");
+      if (!blob) throw Error("Something went wrong");
       a.href = window.URL.createObjectURL(blob);
       a.click();
       a.remove();

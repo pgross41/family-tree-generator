@@ -7,7 +7,6 @@ export default {
     title: "The Ballwin (Brother) Family",
     date: "August 2019",
     treeWidth: "1500px",
-    treeHeight: "750px",
     maxAngle: Math.PI * 1.0,
     minThetaBetweenSibs: deg(10),
     bonusParentFactor: 1.5,

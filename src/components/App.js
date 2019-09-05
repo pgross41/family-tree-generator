@@ -8,11 +8,6 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
-// - Ability to rotate 90deg by generation  
-// - Font size
-// - Json numbers should all be numbers (not just tree size) 
-// - Delete treeHeight (always use treeWidth / 2)
-// - Draw divider leaves instead of adding to childleaves
 // - Support importing CSV 
 // - Revert button on import page? or maybe a history
 // - Zoom in on selected member
