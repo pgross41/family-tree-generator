@@ -11,10 +11,13 @@ import { Context } from "./../Context";
  */
 const ConfigFields = (props) => {
   const { state, dispatch } = React.useContext(Context);
+  const [searchString, setSearchString] = React.useState("");
   const searchMembers = (event) => {
     const searchString = event.target.value.toLowerCase();
+    setSearchString(searchString);
     dispatch(["setSelectedMember", state.family.findByName(searchString)]);
   }
+  const searchIsTrue = state.family.findByName(searchString) === state.selectedMember;
   return (
     <div className={styles.configFields}>
       <h3>Labels</h3>
@@ -30,7 +33,7 @@ const ConfigFields = (props) => {
       <h3>
         Family Members
           <div className={styles.search} >
-          <input onChange={searchMembers} />
+          <input onChange={searchMembers} value={searchIsTrue ? searchString : ''} />
           <MdSearch className={styles.searchIcon} />
         </div>
       </h3>

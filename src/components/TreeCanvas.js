@@ -42,7 +42,7 @@ const TreeCanvas = (props) => {
 
   };
 
-  if (el.current) {
+  if (el.current && state.selectedMember) {
     const activeNode = state.memberEls[state.selectedMember.id];
     if (activeNode) {
       const nodeX = activeNode.offsetLeft + activeNode.offsetWidth / 2;
