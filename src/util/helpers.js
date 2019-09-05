@@ -1,3 +1,6 @@
+import moment from 'moment';
+import blankConfig from './../config/blank';
+
 /**
  * Returns the new value 
  */
@@ -29,3 +32,6 @@ export const toType = (string) => {
         return string;
     }
 }
+
+export const formatDate = (date, format) =>
+    date && moment(date, ['DDMMMMY', 'MMMMDDY']).format(format || blankConfig.dateFormat);

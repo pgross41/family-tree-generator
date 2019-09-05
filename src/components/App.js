@@ -8,9 +8,9 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
+// - Zoom in on selected member
 // - Support importing CSV 
 // - Revert button on import page? or maybe a history
-// - Zoom in on selected member
 
 /**
  * Wrapper component for full application

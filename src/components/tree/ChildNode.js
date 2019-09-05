@@ -2,8 +2,7 @@ import React from 'react';
 import TreeNode from './TreeNode.js';
 import styles from './ChildNode.module.css';
 import cn from 'classnames';
-import moment from 'moment';
-import blankConfig from './../../config/blank';
+import { formatDate } from './../../util/helpers';
 import { Context } from './../Context';
 
 /**
@@ -11,11 +10,11 @@ import { Context } from './../Context';
  */
 const ChildNode = (props) => {
   const { state } = React.useContext(Context);
-  const format = (date) => moment(date, ['DDMMMMY', 'MMMMDDY']).format(state.config.dateFormat || blankConfig.dateFormat);
   const wrapNames = state.config.wrapNames;
   const blank = wrapNames ? '' : '\u00A0';
   const showPlusSign = props.spouseName && !wrapNames;
   const name = (props.name || blank) + (showPlusSign ? ' +' : blank);
+  const format = (date) => formatDate(date, state.config.dateFormat);
   const date = format(props.born) + (props.died ? ` - ${format(props.died)}` : blank);
   const spouseName = props.spouseName || blank;
   const spouseDate = format(props.spouseBorn) + (props.spouseDied ? ` - ${format(props.spouseDied)}` : blank);
