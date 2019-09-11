@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6a03abe2cdcd340ecc0379f22c8288be",
+    "revision": "6c2ae925808bf7891f0cc2bf34849978",
     "url": "/family-tree-generator/index.html"
   },
   {
-    "revision": "a65842cb9c16c2b27042",
+    "revision": "25049c1eed0ec3138f5f",
     "url": "/family-tree-generator/static/css/main.babddf31.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/family-tree-generator/static/js/2.701b86cd.chunk.js"
   },
   {
-    "revision": "a65842cb9c16c2b27042",
-    "url": "/family-tree-generator/static/js/main.e158382c.chunk.js"
+    "revision": "25049c1eed0ec3138f5f",
+    "url": "/family-tree-generator/static/js/main.67f4651a.chunk.js"
   },
   {
     "revision": "c8d5c61dc06d4dc9ff42",
