@@ -10,7 +10,7 @@ const reducer = (state, action) => {
         case "setConfig":
             return { ...state, config: { ...state.config, ...value } };
         case "importSettings":
-            const family = state.family.import(value.members);
+            const family = state.family.load(value.members);
             return { ...state, config: value, family: family };
         case "setSelectedMember":
             return { ...state, selectedMember: value };
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 
 const initialState = {
     config: defaultConfig,
-    family: new Family().import(defaultConfig.members),
+    family: new Family().load(defaultConfig.members),
     members: [],
     memberEls: {}, 
     selectedMember: {},

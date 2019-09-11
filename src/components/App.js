@@ -8,7 +8,6 @@ import { ContextProvider } from './Context';
 
 
 // TODO: 
-// - Support importing CSV 
 // - Revert button on import page? or maybe a history
 
 /**

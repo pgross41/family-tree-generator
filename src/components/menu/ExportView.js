@@ -68,7 +68,7 @@ const ExportView = (props) => {
       </button >
       &nbsp;
       <button onClick={saveImg} >
-        {imgLoading ? 'Please wait...' : 'Download Printable Tree'}
+        {imgLoading ? 'Generating...' : 'Download Printable Tree'}
       </button >
       <textarea ref={textAreaEl} readOnly defaultValue={JSON.stringify(data)} />
     </div>

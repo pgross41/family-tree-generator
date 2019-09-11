@@ -27,29 +27,6 @@ class Family {
     }
 
     /**
-     * Wrapper for load with very lenient input
-     * - If it looks like a member array, call this.load
-     * - If it looks like a CSV, parse it and call this.load
-     * - Otherwise create only a root
-     */
-    import(input) {
-        if (Array.isArray(input)) {
-            return this.load(input);
-        } else if (typeof input === "string") {
-            return this.load(this.parseCsv(input));
-        } else {
-            return this.load([{}]);
-        }
-    }
-
-    parseCsv(csvString) {
-        const data = Papa.parse(csvString, { header: true }).data;
-        // todo: convert parentName to parentId
-        return data;
-
-    }
-
-    /**
      * Populate members with memberData array 
      */
     load(memberData) {
@@ -73,9 +50,7 @@ class Family {
                 this.members.push(member);
                 return member;
             })
-        const rootData = this.memberData.filter(row => !row.parentId);
-        if (!rootData.length) throw Error("No roots found (members with no parent)");
-        if (rootData.length > 1) throw Error("Multiple roots found (members with no parent)");
+        const rootData = Family.findRoot(this.memberData);
         this.rootMember = new Member(rootData[0]);
         this.rootMember.children = getChildren(this.rootMember)
         this.rootMember.depth = 0;
@@ -164,6 +139,33 @@ class Family {
         this.memberData.splice(toPosition, 0, this.memberData.splice(fromPosition, 1)[0]);
         return this.load(this.memberData);
     }
+}
+
+/**
+ * Determine which node(s) are a root node
+ */
+Family.findRoot = (memberData) => {
+    return memberData.filter(row => !row.parentId);
+}
+
+/**
+ * Read member data from comma or tab delimited text
+ */
+Family.parseCsv = (csvString) => {
+    const data = Papa.parse(csvString, { header: true }).data;
+    // todo: convert parentName to parentId
+    Family.validate(data);
+    return data;
+}
+
+/**
+ * Validate input data can be loaded
+ */
+Family.validate = (memberData) => {
+    if (!Array.isArray(memberData)) throw Error('Not a list');
+    const rootData = Family.findRoot(memberData);
+    if (!rootData.length) throw Error("No roots found (members with no parent)");
+    if (rootData.length > 1) throw Error("Multiple roots found (members with no parent)");
 }
 
 export default Family;
