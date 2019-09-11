@@ -10,7 +10,7 @@ const ConfigField = (props) => {
   const { state, dispatch } = React.useContext(Context);
   const onChange = (event) => {
     const value = (props.attrs || {}).type === "checkbox" ? event.target.checked : event.target.value
-    dispatch(["setConfig", { [props.configKey]: toType(value.trim()) }])
+    dispatch(["setConfig", { [props.configKey]: toType(value) }])
   };
   const onKeyDown = (event) => dispatch(["setConfig", { [props.configKey]: toType(handleNumberFieldArrowKey(event)) }]);
   return (

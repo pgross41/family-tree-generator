@@ -23,7 +23,7 @@ export const makeEnum = (...strings) => {
 }
 
 export const toTitleCase = (string) =>
-    string.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ');
+    string.split(' ').map(w => (w[0] || '').toUpperCase() + w.substr(1).toLowerCase()).join(' ');
 
 export const toType = (string) => {
     try {

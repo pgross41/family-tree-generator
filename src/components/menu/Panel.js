@@ -5,12 +5,11 @@ import ConfigFields from './ConfigFields';
 import ExportView from './ExportView';
 import ImportView from './ImportView';
 import ViewButton from './ViewButton';
-import { makeEnum, toTitleCase } from './../../util/helpers';
+import { toTitleCase } from './../../util/helpers';
+import views from './../../util/views';
 import {
   MdSettings, MdFileDownload, MdFileUpload, MdZoomIn, MdZoomOut, MdMenu, MdChevronRight
 } from "react-icons/md";
-
-const views = makeEnum('SETTINGS', 'IMPORT', 'EXPORT');
 
 /**
  * Popout tools panel
@@ -18,7 +17,8 @@ const views = makeEnum('SETTINGS', 'IMPORT', 'EXPORT');
 const Panel = (props) => {
   const { state, dispatch } = React.useContext(Context);
   const menuOpen = props.menuOpen;
-  const [view, setView] = React.useState(views.SETTINGS); // Testing... default should be SETTINGS
+  const setView = (view) => dispatch(["setSelectedView", view])
+  const selectedView = state.selectedView || views.SETTINGS;
   const className = `${styles.panel}${menuOpen ? '' : ` ${styles.closed}`}`
   const zoom = state.config.zoom;
   const increaseZoom = (amount) => dispatch(["setConfig", { zoom: zoom + amount }])
@@ -38,14 +38,14 @@ const Panel = (props) => {
       <div className={styles.content}>
         <div className={styles.contentScroll}>
           <h1>
-            {toTitleCase(view)}
+            {toTitleCase(selectedView)}
             <ViewButton view={views.EXPORT} buttonIcon={<MdFileUpload />} setView={setView} />
             <ViewButton view={views.IMPORT} buttonIcon={<MdFileDownload />} setView={setView} />
             <ViewButton view={views.SETTINGS} buttonIcon={<MdSettings />} setView={setView} />
           </h1>
-          {view === views.SETTINGS && <ConfigFields />}
-          {view === views.IMPORT && <ImportView />}
-          {view === views.EXPORT && <ExportView />}
+          {selectedView === views.SETTINGS && <ConfigFields />}
+          {selectedView === views.IMPORT && <ImportView />}
+          {selectedView === views.EXPORT && <ExportView />}
         </div>
       </div>
     </div>

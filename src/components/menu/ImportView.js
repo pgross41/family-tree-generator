@@ -28,7 +28,6 @@ const ImportView = (props) => {
       <button onClick={setBlank} >
         Use blank
       </button >
-      <p><b>Caution</b>: Changes are made in realtime so typing in this box will completely erase current settings</p>
       <textarea
         onChange={onChange}
         onInput={onChange}

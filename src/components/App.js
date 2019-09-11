@@ -6,10 +6,6 @@ import ToolsPanel from './menu/Panel';
 import styles from './App.module.css';
 import { ContextProvider } from './Context';
 
-
-// TODO: 
-// - Revert button on import page? or maybe a history
-
 /**
  * Wrapper component for full application
  */
