@@ -6,7 +6,7 @@ export default {
   "debugMode": false,
   "zoom": 0.5,
   "title": "My Family",
-  "subTitle": `${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`,
+  "subTitle": `${date.toLocaleString('en-us', { month: 'long' })}, ${date.getFullYear()}`,
   "treeWidth": 2000,
   "treeAngle": 180,
   "minAngleBetweenSibs": 5,

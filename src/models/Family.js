@@ -162,7 +162,7 @@ Family.parseCsv = (csvString) => {
  * Validate input data can be loaded
  */
 Family.validate = (memberData) => {
-    if (!Array.isArray(memberData)) throw Error('Not a list');
+    if (!Array.isArray(memberData)) throw Error('Family members must be a list');
     const rootData = Family.findRoot(memberData);
     if (!rootData.length) throw Error("No roots found (members with no parent)");
     if (rootData.length > 1) throw Error("Multiple roots found (members with no parent)");
