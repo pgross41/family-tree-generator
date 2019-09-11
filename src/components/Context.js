@@ -42,7 +42,7 @@ const initialState = {
     members: [],
     memberEls: {},
     selectedMember: {},
-    selectedView: undefined,
+    selectedView: views.SETTINGS,
 };
 
 const Context = React.createContext(initialState);

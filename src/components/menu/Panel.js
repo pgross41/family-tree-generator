@@ -18,7 +18,6 @@ const Panel = (props) => {
   const { state, dispatch } = React.useContext(Context);
   const menuOpen = props.menuOpen;
   const setView = (view) => dispatch(["setSelectedView", view])
-  const selectedView = state.selectedView || views.SETTINGS;
   const className = `${styles.panel}${menuOpen ? '' : ` ${styles.closed}`}`
   const zoom = state.config.zoom;
   const increaseZoom = (amount) => dispatch(["setConfig", { zoom: zoom + amount }])
@@ -38,14 +37,14 @@ const Panel = (props) => {
       <div className={styles.content}>
         <div className={styles.contentScroll}>
           <h1>
-            {toTitleCase(selectedView)}
+            {toTitleCase(state.selectedView)}
             <ViewButton view={views.EXPORT} buttonIcon={<MdFileUpload />} setView={setView} />
             <ViewButton view={views.IMPORT} buttonIcon={<MdFileDownload />} setView={setView} />
             <ViewButton view={views.SETTINGS} buttonIcon={<MdSettings />} setView={setView} />
           </h1>
-          {selectedView === views.SETTINGS && <ConfigFields />}
-          {selectedView === views.IMPORT && <ImportView />}
-          {selectedView === views.EXPORT && <ExportView />}
+          {state.selectedView === views.SETTINGS && <ConfigFields />}
+          {state.selectedView === views.IMPORT && <ImportView />}
+          {state.selectedView === views.EXPORT && <ExportView />}
         </div>
       </div>
     </div>
