@@ -22,7 +22,7 @@ const reducer = (state, action) => {
         case "setSelectedMember":
             return { ...state, selectedMember: value };
         case "setSelectedView":
-            return { ...state, selectedView: value };
+            return { ...state, selectedMember: null, selectedView: value };
         case "updateMember":
             return { ...state, family: state.family.updateMember(value.id, value.props) };
         case "addMember":

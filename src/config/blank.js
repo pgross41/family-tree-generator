@@ -12,6 +12,6 @@ export default {
   "minAngleBetweenSibs": 5,
   "edgeLeafOffsetAngle": 0,
   "wrapNames": false,
-  "dateFormat": "MMMM, D YYYY",
+  "dateFormat": "MMMM D, YYYY",
   "members": [{}]
 }
